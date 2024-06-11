@@ -1,20 +1,17 @@
 // models/State.js
 
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
 
-const stateSchema = new mongoose.Schema({
+const State = sequelize.define('State', {
   code: {
-    type: String,
-    required: true,
-    maxlength: 2,
+    type: DataTypes.STRING(2),
+    allowNull: false,
   },
   name: {
-    type: String,
-    required: true,
-    maxlength: 100,
+    type: DataTypes.STRING(100),
+    allowNull: false,
   },
 });
-
-const State = mongoose.model('State', stateSchema);
 
 export default State;

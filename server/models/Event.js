@@ -1,35 +1,41 @@
 // models/Event.js
 
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
 
-const eventSchema = new mongoose.Schema({
+const Event = sequelize.define('Event', {
   eventName: {
-    type: String,
-    required: true,
-    maxlength: 100,
+    type: DataTypes.STRING(100),
+    allowNull: false,
   },
   eventDescription: {
-    type: String,
-    required: true,
+    type: DataTypes.TEXT,
+    allowNull: false,
   },
   location: {
-    type: String,
-    required: true,
+    type: DataTypes.TEXT,
+    allowNull: false,
   },
   requiredSkills: {
-    type: [String],
-    required: true,
+    type: DataTypes.JSON,
+    allowNull: false,
   },
   urgency: {
-    type: String,
-    required: true,
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   eventDate: {
-    type: Date,
-    required: true,
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
   },
 });
-
-const Event = mongoose.model('Event', eventSchema);
 
 export default Event;

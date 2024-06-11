@@ -1,7 +1,7 @@
 // services/sendVerificationEmail.js
 
 import sgMail from '@sendgrid/mail';
-import config from '../config.js';
+import config from '../config/config.js';
 
 // Initialize the SendGrid client with the API key
 sgMail.setApiKey(config.sendGridApiKey);

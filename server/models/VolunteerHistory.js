@@ -1,28 +1,40 @@
 // models/VolunteerHistory.js
 
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
+import User from './User.js';
+import Event from './Event.js';
 
-const volunteerHistorySchema = new mongoose.Schema({
+const VolunteerHistory = sequelize.define('VolunteerHistory', {
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+    type: DataTypes.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+    },
+    allowNull: false,
   },
   eventId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Event',
-    required: true,
+    type: DataTypes.INTEGER,
+    references: {
+      model: Event,
+      key: 'id',
+    },
+    allowNull: false,
   },
   participationStatus: {
-    type: String,
-    required: true,
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   createdAt: {
-    type: Date,
-    default: Date.now,
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
   },
 });
 
-const VolunteerHistory = mongoose.model('VolunteerHistory', volunteerHistorySchema);
+User.hasMany(VolunteerHistory, { foreignKey: 'userId' });
+Event.hasMany(VolunteerHistory, { foreignKey: 'eventId' });
+VolunteerHistory.belongsTo(User, { foreignKey: 'userId' });
+VolunteerHistory.belongsTo(Event, { foreignKey: 'eventId' });
 
 export default VolunteerHistory;

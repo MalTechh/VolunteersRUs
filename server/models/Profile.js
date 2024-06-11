@@ -1,56 +1,55 @@
 // models/Profile.js
 
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
+import User from './User.js';
 
-const profileSchema = new mongoose.Schema({
+const Profile = sequelize.define('Profile', {
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+    type: DataTypes.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+    },
+    allowNull: false,
   },
   fullName: {
-    type: String,
-    required: true,
-    maxlength: 50,
+    type: DataTypes.STRING(50),
+    allowNull: false,
   },
   address1: {
-    type: String,
-    required: true,
-    maxlength: 100,
+    type: DataTypes.STRING(100),
+    allowNull: false,
   },
   address2: {
-    type: String,
-    maxlength: 100,
+    type: DataTypes.STRING(100),
   },
   city: {
-    type: String,
-    required: true,
-    maxlength: 100,
+    type: DataTypes.STRING(100),
+    allowNull: false,
   },
   state: {
-    type: String,
-    required: true,
-    maxlength: 2,
+    type: DataTypes.STRING(2),
+    allowNull: false,
   },
   zipCode: {
-    type: String,
-    required: true,
-    minlength: 5,
-    maxlength: 9,
+    type: DataTypes.STRING(9),
+    allowNull: false,
   },
   skills: {
-    type: [String],
-    required: true,
+    type: DataTypes.JSON,
+    allowNull: false,
   },
   preferences: {
-    type: String,
+    type: DataTypes.TEXT,
   },
   availability: {
-    type: [Date],
-    required: true,
+    type: DataTypes.JSON,
+    allowNull: false,
   },
 });
 
-const Profile = mongoose.model('Profile', profileSchema);
+User.hasOne(Profile, { foreignKey: 'userId' });
+Profile.belongsTo(User, { foreignKey: 'userId' });
 
 export default Profile;
