@@ -2,8 +2,8 @@
 
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
-import User from './User.js';
-import Event from './Event.js';
+import User from './UserCredentials.js';
+import Event from './EventDetails.js';
 
 const VolunteerHistory = sequelize.define('VolunteerHistory', {
   userId: {

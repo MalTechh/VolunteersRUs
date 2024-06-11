@@ -2,7 +2,7 @@
 
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
-import User from './User.js';
+import User from './UserCredentials.js';
 
 const Profile = sequelize.define('Profile', {
   userId: {
@@ -44,7 +44,7 @@ const Profile = sequelize.define('Profile', {
     type: DataTypes.TEXT,
   },
   availability: {
-    type: DataTypes.JSON,
+    type: DataTypes.JSON, // Storing as JSON array of ISO 8601 strings
     allowNull: false,
   },
 });

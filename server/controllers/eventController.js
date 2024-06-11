@@ -1,6 +1,7 @@
 // controllers/eventController.js
 
-import Event from '../models/Event.js';
+import Event from '../models/EventDetails.js';
+import VolunteerHistory from '../models/VolunteerHistory.js';
 
 export const createEvent = async (req, res) => {
   const eventData = req.body;
@@ -15,7 +16,7 @@ export const createEvent = async (req, res) => {
 
 export const getEvents = async (req, res) => {
   try {
-    const events = await Event.find();
+    const events = await Event.findAll();
     res.json(events);
   } catch (error) {
     res.status(400).json({ error: 'Error fetching events.' });
@@ -31,6 +32,28 @@ export const getEvent = async (req, res) => {
     res.status(400).json({ error: 'Error fetching event.' });
   }
 };
+
+export const registerForEvent = async (req, res) => {
+    const { eventId } = req.body;
+    const userId = req.user.id; 
+  
+    try {
+      const event = await Event.findByPk(eventId);
+      if (!event) {
+        return res.status(404).json({ error: 'Event not found' });
+      }
+  
+      const registration = await VolunteerHistory.create({
+        userId,
+        eventId,
+        participationStatus: 'Registered'
+      });
+  
+      res.status(201).json({ message: 'Registered for event successfully', registration });
+    } catch (error) {
+      res.status(500).json({ error: 'Error registering for event' });
+    }
+  };
 
 export const updateEvent = async (req, res) => {
   const { id } = req.params;
