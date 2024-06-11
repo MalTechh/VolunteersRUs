@@ -3,21 +3,26 @@
 import sgMail from '@sendgrid/mail';
 import config from '../config/config.js';
 
-// Initialize the SendGrid client with the API key
 sgMail.setApiKey(config.sendGridApiKey);
 
-export default async function sendVerificationEmail(email) {
+const sendVerificationEmail = async (to, token) => {
   const msg = {
-    to: email,
-    from: 'no-reply@yourdomain.com',
+    to,
+    from: 'malachirichlin@gmail.com', // Use a verified sender
     subject: 'Email Verification',
-    text: 'Please verify your email by clicking the link below.',
-    html: '<strong>Please verify your email by clicking the link below.</strong>',
+    text: `Please verify your email by clicking the following link: ${token}`,
+    html: `<p>Please verify your email by clicking the following link: <a href="${token}">${token}</a></p>`,
   };
-  
+
   try {
-    await sgMail.send(msg);
+    const response = await sgMail.send(msg);
+    console.log('Verification email sent successfully.', response);
   } catch (error) {
     console.error('Error sending email:', error);
+    if (error.response) {
+      console.error('SendGrid response error:', error.response.body);
+    }
   }
-}
+};
+
+export default sendVerificationEmail;
