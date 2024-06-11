@@ -8,7 +8,7 @@ sgMail.setApiKey(config.sendGridApiKey);
 const sendVerificationEmail = async (to, token) => {
   const msg = {
     to,
-    from: 'malachirichlin@gmail.com', // Use a verified sender
+    from: 'malachirichlin@gmail.com',
     subject: 'Email Verification',
     text: `Please verify your email by clicking the following link: ${token}`,
     html: `<p>Please verify your email by clicking the following link: <a href="${token}">${token}</a></p>`,
