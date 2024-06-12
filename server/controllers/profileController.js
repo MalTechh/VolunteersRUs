@@ -1,11 +1,11 @@
 // controllers/profileController.js
 
-import Profile from '../models/UserProfile.js';
+import UserProfile from '../models/UserProfile.js';
 
 export const getProfile = async (req, res) => {
   const userId = req.user.id;
   try {
-    const profile = await Profile.findOne({ userId });
+    const profile = await UserProfile.findOne({ userId });
     res.json(profile);
   } catch (error) {
     res.status(400).json({ error: 'Error fetching profile.' });
@@ -16,7 +16,7 @@ export const createProfile = async (req, res) => {
   const userId = req.user.id;
   const profileData = req.body;
   try {
-    const profile = new Profile({ ...profileData, userId });
+    const profile = new UserProfile({ ...profileData, userId });
     await profile.save();
     res.status(201).json(profile);
   } catch (error) {
@@ -28,7 +28,7 @@ export const updateProfile = async (req, res) => {
     const profileData = req.body;
   
     try {
-      const profile = await Profile.findOne({ where: { userId } });
+      const profile = await UserProfile.findOne({ where: { userId } });
   
       if (!profile) {
         return res.status(404).json({ error: 'Profile not found' });
@@ -38,7 +38,7 @@ export const updateProfile = async (req, res) => {
   
       res.json(profile);
     } catch (error) {
-      console.error('Error updating profile:', error); // Log the error for debugging
+      console.error('Error updating profile:', error);
       res.status(400).json({ error: 'Error updating profile.' });
     }
   };

@@ -3,7 +3,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
-const Event = sequelize.define('Event', {
+const EventDetails = sequelize.define('EventDetails', {
   eventName: {
     type: DataTypes.STRING(100),
     allowNull: false,
@@ -38,4 +38,4 @@ const Event = sequelize.define('Event', {
   },
 });
 
-export default Event;
+export default EventDetails;

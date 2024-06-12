@@ -2,13 +2,13 @@
 
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
-import User from './UserCredentials.js';
+import UserCredentials from './UserCredentials.js';
 
-const Profile = sequelize.define('Profile', {
+const UserProfile = sequelize.define('UserProfile', {
   userId: {
     type: DataTypes.INTEGER,
     references: {
-      model: User,
+      model: UserCredentials,
       key: 'id',
     },
     allowNull: false,
@@ -49,7 +49,7 @@ const Profile = sequelize.define('Profile', {
   },
 });
 
-User.hasOne(Profile, { foreignKey: 'userId' });
-Profile.belongsTo(User, { foreignKey: 'userId' });
+UserCredentials.hasOne(UserProfile, { foreignKey: 'userId' });
+UserProfile.belongsTo(UserCredentials, { foreignKey: 'userId' });
 
-export default Profile;
+export default UserProfile;

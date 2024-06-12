@@ -1,14 +1,14 @@
 // controllers/matchingController.js
 
 import { Op } from 'sequelize';
-import Event from '../models/EventDetails.js';
-import Profile from '../models/UserProfile.js';
+import EventDetails from '../models/EventDetails.js';
+import UserProfile from '../models/UserProfile.js';
 
 export const matchVolunteers = async (req, res) => {
   const userId = req.user.id; // Assuming user id is available in req.user
 
   try {
-    const profile = await Profile.findOne({ where: { userId } });
+    const profile = await UserProfile.findOne({ where: { userId } });
     if (!profile) {
       return res.status(404).json({ error: 'Profile not found' });
     }
@@ -20,7 +20,7 @@ export const matchVolunteers = async (req, res) => {
     console.log('User Availability:', userAvailability);
 
     // Find events that match both skills and availability
-    let matchingEvents = await Event.findAll({
+    let matchingEvents = await EventDetails.findAll({
       where: {
         [Op.and]: [
           {
@@ -35,7 +35,7 @@ export const matchVolunteers = async (req, res) => {
 
     // If no exact matches, find events that match availability only
     if (matchingEvents.length === 0) {
-      matchingEvents = await Event.findAll({
+      matchingEvents = await EventDetails.findAll({
         where: {
           eventDate: { [Op.in]: userAvailability }
         }

@@ -1,0 +1,20 @@
+{
+    "env": {
+      "mocha": true,
+      "node": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+      "no-undef": "off"
+    },
+    "globals": {
+      "describe": true,
+      "it": true,
+      "before": true,
+      "after": true,
+      "beforeEach": true,
+      "afterEach": true
+    }
+  }
+  

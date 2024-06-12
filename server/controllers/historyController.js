@@ -1,16 +1,16 @@
 // controllers/historyController.js
 
-import VolunteerHistory from '../models/VolunteerHistory.js';
-import Event from '../models/EventDetails.js';
+import VolunteerHistories from '../models/VolunteerHistories.js';
+import EventDetails from '../models/EventDetails.js';
 
 export const getVolunteerHistory = async (req, res) => {
   const userId = req.user.id; // Assuming user id is available in req.user
 
   try {
-    const history = await VolunteerHistory.findAll({
+    const history = await VolunteerHistories.findAll({
       where: { userId },
       include: [{
-        model: Event,
+        model: EventDetails,
         attributes: ['eventName', 'eventDescription', 'location', 'eventDate', 'requiredSkills', 'urgency'],
       }]
     });

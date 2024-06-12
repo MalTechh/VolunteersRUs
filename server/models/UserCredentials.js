@@ -3,7 +3,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
-const User = sequelize.define('User', {
+const UserCredentials = sequelize.define('UserCredentials', {
   email: {
     type: DataTypes.STRING(50),
     allowNull: false,
@@ -23,4 +23,4 @@ const User = sequelize.define('User', {
   updatedAt: false,
 });
 
-export default User;
+export default UserCredentials;
