@@ -2,7 +2,8 @@
 
 import { Router } from 'express';
 import { getProfile, createProfile, updateProfile } from '../controllers/profileController.js';
-import authMiddleware from '../middlewares/authMiddleware.js';
+import { authMiddleware } from '../middlewares/authMiddleware.js';
+
 
 const router = Router();
 

@@ -1,26 +1,26 @@
-// models/User.js
-
-import { DataTypes } from 'sequelize';
+import { Sequelize } from 'sequelize';
 import sequelize from '../config/database.js';
 
 const UserCredentials = sequelize.define('UserCredentials', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   email: {
-    type: DataTypes.STRING(50),
+    type: Sequelize.STRING,
     allowNull: false,
     unique: true,
   },
   password: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: false,
   },
-  isVerified: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
+  role: {
+    type: Sequelize.ENUM('admin', 'user'),
+    allowNull: false,
+    defaultValue: 'user',
   },
-}, {
-  timestamps: true,
-  createdAt: true,
-  updatedAt: false,
 });
 
 export default UserCredentials;
