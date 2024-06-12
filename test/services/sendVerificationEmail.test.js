@@ -1,13 +1,32 @@
 import sendVerificationEmail from '../../server/services/sendVerificationEmail.js';
-import * as sgMail from '@sendgrid/mail';
 
-jest.mock('@sendgrid/mail');
+describe('Send Verification Email', () => {
+  let mockSend;
 
-describe('Send Verification Email Service', () => {
+  beforeEach(() => {
+    mockSend = jest.fn();
+    jest.mock('@sendgrid/mail', () => ({
+      setApiKey: jest.fn(),
+      send: mockSend,
+    }));
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+  });
+
   test('should send a verification email', async () => {
-    sgMail.send.mockResolvedValue({});
-    const email = 'test@example.com';
-    await sendVerificationEmail(email);
-    expect(sgMail.send).toHaveBeenCalledWith(expect.objectContaining({ to: email }));
+    const userEmail = 'user@example.com';
+    const verificationLink = 'http://example.com/verify?token=fakeToken';
+
+    await sendVerificationEmail(userEmail, verificationLink);
+
+    expect(mockSend).toHaveBeenCalledWith({
+      to: userEmail,
+      from: 'no-reply@example.com',
+      subject: 'Email Verification',
+      text: `Please verify your email by clicking the following link: ${verificationLink}`,
+      html: `<p>Please verify your email by clicking the following link: <a href="${verificationLink}">${verificationLink}</a></p>`,
+    });
   });
 });

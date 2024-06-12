@@ -2,8 +2,6 @@ import request from 'supertest';
 import app from '../../server/app.js';
 
 describe('Auth Routes', () => {
-  let token;
-
   test('should register a new user', async () => {
     const response = await request(app)
       .post('/api/register')
@@ -18,13 +16,12 @@ describe('Auth Routes', () => {
       .send({ email: 'newuser@example.com', password: 'password123' });
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('token');
-    token = response.body.token;
   });
 
   test('should logout a user', async () => {
     const response = await request(app)
       .post('/api/logout')
-      .set('Authorization', `Bearer ${token}`);
+      .set('Authorization', `Bearer <your_jwt_token_here>`);
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('message', 'Logout successful.');
   });
