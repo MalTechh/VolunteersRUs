@@ -24,14 +24,17 @@ export const getEvents = async (req, res) => {
 };
 
 export const getEvent = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const event = await EventDetails.findById(id);
-    res.json(event);
-  } catch (error) {
-    res.status(400).json({ error: 'Error fetching event.' });
-  }
-};
+    try {
+      const event = await EventDetails.findByPk(req.params.id);
+      if (!event) {
+        return res.status(404).json({ error: 'Event not found.' });
+      }
+      res.json(event);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching event.' });
+    }
+  };
+  
 
 export const registerForEvent = async (req, res) => {
     const { eventId } = req.body;
@@ -55,23 +58,29 @@ export const registerForEvent = async (req, res) => {
     }
   };
 
-export const updateEvent = async (req, res) => {
-  const { id } = req.params;
-  const eventData = req.body;
-  try {
-    const event = await EventDetails.findByIdAndUpdate(id, eventData, { new: true });
-    res.json(event);
-  } catch (error) {
-    res.status(400).json({ error: 'Error updating event.' });
-  }
-};
+  export const updateEvent = async (req, res) => {
+    try {
+      const event = await EventDetails.findByPk(req.params.id);
+      if (!event) {
+        return res.status(404).json({ error: 'Event not found.' });
+      }
+      await event.update(req.body);
+      res.json({ message: 'Event updated successfully.', event });
+    } catch (error) {
+      res.status(500).json({ error: 'Error updating event.' });
+    }
+  };
+  
 
-export const deleteEvent = async (req, res) => {
-  const { id } = req.params;
-  try {
-    await EventDetails.findByIdAndDelete(id);
-    res.json({ message: 'Event deleted.' });
-  } catch (error) {
-    res.status(400).json({ error: 'Error deleting event.' });
-  }
-};
+  export const deleteEvent = async (req, res) => {
+    try {
+      const event = await EventDetails.findByPk(req.params.id);
+      if (!event) {
+        return res.status(404).json({ error: 'Event not found.' });
+      }
+      await event.destroy();
+      res.json({ message: 'Event deleted successfully.' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error deleting event.' });
+    }
+  };  

@@ -1,16 +1,14 @@
-// controllers/notificationController.js
-
-import Notification from '../models/Notification.js'; // Assuming you have a Notification model
-import sendNotificationService from '../services/sendNotification.js'; // Correct import for the default export
+import Notification from '../models/Notification.js';
+import sendNotificationService from '../services/sendNotification.js';
 
 export const sendNotification = async (req, res) => {
   const { userId, message } = req.body;
   try {
-    const notification = new Notification({ userId, message });
-    await notification.save();
+    const notification = await Notification.create({ userId, message });
     await sendNotificationService(userId, message);
     res.status(201).json(notification);
   } catch (error) {
+    console.error('Error sending notification:', error);
     res.status(400).json({ error: 'Error sending notification.' });
   }
 };
