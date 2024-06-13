@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import MultiSelect from './MultiSelect';
 import './Event_Form.css';
 
 const Event_Form = () => {
