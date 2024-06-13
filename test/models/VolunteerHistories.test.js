@@ -2,7 +2,7 @@ import VolunteerHistories from '../../server/models/VolunteerHistories.js';
 
 describe('VolunteerHistories Model', () => {
   beforeAll(async () => {
-    await VolunteerHistories.sync({ force: true }); // Ensure the table is created and empty
+    await VolunteerHistories.destroy({ where: {}, truncate: true }); // Ensure the table is empty
   });
 
   test('should create a new volunteer history record', async () => {
@@ -13,5 +13,7 @@ describe('VolunteerHistories Model', () => {
     });
 
     expect(history.userId).toBe(1);
+    expect(history.eventId).toBe(1);
+    expect(history.participationStatus).toBe('Participated');
   });
 });

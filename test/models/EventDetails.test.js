@@ -3,7 +3,7 @@ import EventDetails from '../../server/models/EventDetails.js';
 describe('EventDetails Model', () => {
   beforeAll(async () => {
     try {
-      await EventDetails.sync({ force: true }); // Ensure the table is created and empty
+      await EventDetails.sync(); 
     } catch (error) {
       console.error('Error syncing EventDetails model:', error);
     }

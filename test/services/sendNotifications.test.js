@@ -19,7 +19,7 @@ describe('Send Notifications', () => {
     const userEmail = 'user@example.com';
     const message = 'You have a new event assignment.';
 
-    await sendNotification(userEmail, message);
+    await sendNotification(1, message);
 
     expect(mockSend).toHaveBeenCalledWith({
       to: userEmail,
