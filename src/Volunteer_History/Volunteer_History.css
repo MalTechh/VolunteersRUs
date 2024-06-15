@@ -1,0 +1,44 @@
+.volunteer-history {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+
+  .volunteer-history h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .volunteer-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; 
+  }
+
+  .volunteer-history-table th,
+  .volunteer-history-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .volunteer-history-table th {
+    background-color: #747bff;
+    color: white;
+  }
+
+  .volunteer-history-table th,
+  .volunteer-history-table td {
+    width: 14.285%; 
+  }
+
+  .volunteer-history-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  .volunteer-history-table tr:hover {
+    background-color: #ddd;
+  } 
