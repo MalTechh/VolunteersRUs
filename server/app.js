@@ -8,10 +8,17 @@ import eventRoutes from './routes/eventRoutes.js';
 import matchingRoutes from './routes/matchingRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 import historyRoutes from './routes/historyRoutes.js';
+import cors from 'cors';
 
 const app = express();
 
 app.use(bodyParser.json());
+
+app.use(cors({
+    origin: 'http://localhost:5173', // Replace with your frontend URL
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type'],
+  }));
 
 app.use('/api', authRoutes);
 app.use('/api', profileRoutes);

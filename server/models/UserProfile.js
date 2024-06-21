@@ -1,55 +1,63 @@
-// models/Profile.js
-
+// models/UserProfile.js
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 import UserCredentials from './UserCredentials.js';
 
 const UserProfile = sequelize.define('UserProfile', {
-  userId: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: UserCredentials,
-      key: 'id',
-    },
-    allowNull: false,
+  UserID: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      references: {
+          model: 'UserCredentials', // table name, not the model name
+          key: 'UserID'
+      }
   },
-  fullName: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
+  FullName: {
+      type: DataTypes.STRING(50),
+      allowNull: false
   },
-  address1: {
-    type: DataTypes.STRING(100),
-    allowNull: false,
+  Address1: {
+      type: DataTypes.STRING(100),
+      allowNull: false
   },
-  address2: {
-    type: DataTypes.STRING(100),
+  Address2: {
+      type: DataTypes.STRING(100),
   },
-  city: {
-    type: DataTypes.STRING(100),
-    allowNull: false,
+  City: {
+      type: DataTypes.STRING(100),
+      allowNull: false
   },
-  state: {
-    type: DataTypes.STRING(2),
-    allowNull: false,
+  State: {
+      type: DataTypes.STRING(50),
+      allowNull: false
   },
-  zipCode: {
-    type: DataTypes.STRING(9),
-    allowNull: false,
+  ZipCode: {
+      type: DataTypes.STRING(9),
+      allowNull: false
   },
-  skills: {
-    type: DataTypes.JSON,
-    allowNull: false,
+  Skills: {
+      type: DataTypes.STRING(255),
+      allowNull: false
   },
-  preferences: {
-    type: DataTypes.TEXT,
+  Preferences: {
+      type: DataTypes.TEXT
   },
-  availability: {
-    type: DataTypes.JSON, // Storing as JSON array of ISO 8601 strings
-    allowNull: false,
+  Availability: {
+      type: DataTypes.TEXT,
+      allowNull: false
   },
+  CreatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+  },
+  UpdatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      onUpdate: DataTypes.NOW
+  }
+}, {
+  tableName: 'UserProfile',
+  timestamps: false // because CreatedAt and UpdatedAt are handled manually
 });
 
-UserCredentials.hasOne(UserProfile, { foreignKey: 'userId' });
-UserProfile.belongsTo(UserCredentials, { foreignKey: 'userId' });
-
-export default UserProfile;
+export default UserProfile

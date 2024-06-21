@@ -4,38 +4,47 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
 const EventDetails = sequelize.define('EventDetails', {
-  eventName: {
-    type: DataTypes.STRING(100),
-    allowNull: false,
+  EventID: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
   },
-  eventDescription: {
-    type: DataTypes.TEXT,
-    allowNull: false,
+  EventName: {
+      type: DataTypes.STRING(100),
+      allowNull: false
   },
-  location: {
-    type: DataTypes.TEXT,
-    allowNull: false,
+  Description: {
+      type: DataTypes.TEXT,
+      allowNull: false
   },
-  requiredSkills: {
-    type: DataTypes.JSON,
-    allowNull: false,
+  Location: {
+      type: DataTypes.TEXT,
+      allowNull: false
   },
-  urgency: {
-    type: DataTypes.STRING,
-    allowNull: false,
+  RequiredSkills: {
+      type: DataTypes.STRING(255),
+      allowNull: false
   },
-  eventDate: {
-    type: DataTypes.DATE, // Storing as DATE
-    allowNull: false,
+  Urgency: {
+      type: DataTypes.ENUM('High', 'Medium', 'Low'),
+      allowNull: false
   },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
+  EventDate: {
+      type: DataTypes.DATE,
+      allowNull: false
   },
-  updatedAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
+  CreatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
   },
+  UpdatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      onUpdate: DataTypes.NOW
+  }
+}, {
+  tableName: 'EventDetails',
+  timestamps: false // because CreatedAt and UpdatedAt are handled manually
 });
 
 export default EventDetails;

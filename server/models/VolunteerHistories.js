@@ -5,36 +5,47 @@ import sequelize from '../config/database.js';
 import UserCredentials from './UserCredentials.js';
 import EventDetails from './EventDetails.js';
 
-const VolunteerHistories = sequelize.define('VolunteerHistories', {
-  userId: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: UserCredentials,
-      key: 'id',
-    },
-    allowNull: false,
+const VolunteerHistory = sequelize.define('VolunteerHistory', {
+  ParticipationID: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
   },
-  eventId: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: EventDetails,
-      key: 'id',
-    },
-    allowNull: false,
+  UserID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+          model: 'UserProfile', // table name
+          key: 'UserID'
+      }
   },
-  participationStatus: {
-    type: DataTypes.STRING,
-    allowNull: false,
+  EventID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+          model: 'EventDetails', // table name
+          key: 'EventID'
+      }
   },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
+  ParticipationDate: {
+      type: DataTypes.DATE,
+      allowNull: false
   },
+  Role: {
+      type: DataTypes.STRING(50),
+      allowNull: false
+  },
+  Status: {
+      type: DataTypes.ENUM('Confirmed', 'Pending', 'Cancelled'),
+      allowNull: false
+  },
+  CreatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+  }
+}, {
+  tableName: 'VolunteerHistory',
+  timestamps: false // because CreatedAt is handled manually
 });
 
-UserCredentials.hasMany(VolunteerHistories, { foreignKey: 'userId' });
-EventDetails.hasMany(VolunteerHistories, { foreignKey: 'eventId' });
-VolunteerHistories.belongsTo(UserCredentials, { foreignKey: 'userId' });
-VolunteerHistories.belongsTo(EventDetails, { foreignKey: 'eventId' });
-
-export default VolunteerHistories;
+export default VolunteerHistory

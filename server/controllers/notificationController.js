@@ -1,4 +1,4 @@
-import Notification from '../models/Notification.js';
+
 import sendNotificationService from '../services/sendNotification.js';
 
 export const sendNotification = async (req, res) => {
