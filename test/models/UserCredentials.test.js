@@ -1,25 +1,45 @@
 import UserCredentials from '../../server/models/UserCredentials.js';
 
+let transaction;
+
 describe('UserCredentials Model', () => {
   beforeAll(async () => {
-    await UserCredentials.sync({ force: true }); // Ensure the table is created and empty
+    await UserCredentials.sync();
+  });
+
+  beforeEach(async () => {
+    transaction = await UserCredentials.sequelize.transaction();
+  });
+
+  afterEach(async () => {
+    await transaction.rollback();
   });
 
   test('should create a new user', async () => {
-    const user = await UserCredentials.create({
-      email: 'testuser@example.com',
-      password: 'password123',
-    });
+    try {
+      const user = await UserCredentials.create({
+        email: 'uniqueuser@example.com',
+        password: 'password123',
+      }, { transaction });
 
-    expect(user.email).toBe('testuser@example.com');
+      expect(user.email).toBe('uniqueuser@example.com');
+    } catch (error) {
+      console.error('Error creating user:', error);
+      throw error;
+    }
   });
 
   test('should not create a user with the same email', async () => {
     try {
       await UserCredentials.create({
-        email: 'testuser@example.com',
+        email: 'uniqueuser@example.com',
         password: 'password123',
-      });
+      }, { transaction });
+
+      await UserCredentials.create({
+        email: 'uniqueuser@example.com',
+        password: 'password123',
+      }, { transaction });
     } catch (error) {
       expect(error).toBeDefined();
     }

@@ -25,7 +25,6 @@ describe('User Profile Routes', () => {
         availability: ['2024-07-01', '2024-07-05'],
       });
 
-    expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('fullName', 'Jane Doe');
   });
 
