@@ -1,55 +1,40 @@
-.container {
-  width: 100%; 
-  max-width: 100rem; 
-  padding: 20px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  margin: 20px auto;
-  padding-bottom: 30px;
-}
+/* Volunteer_History.css */
 
 .volunteer-history {
-    position: relative;
-    background-color: #f9f9f9;;
-  }
+  margin: 20px auto;
+  padding: 10px;
+  width: 95%;
+  
+  border-radius: 10px;
 
-  .volunteer-history h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-  }
+}
 
-  .volunteer-history-table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed; 
-  }
+.volunteer-history h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-  .volunteer-history-table th,
-  .volunteer-history-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
+.volunteer-history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-  .volunteer-history-table th {
-    background-color: #747bff;
-    color: white;
-  }
+.volunteer-history-table th,
+.volunteer-history-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
 
-  .volunteer-history-table th,
-  .volunteer-history-table td {
-    width: 14.285%; 
-  }
+.volunteer-history-table th {
+  background-color: #4CAF50;
+  color: white;
+}
 
-  .volunteer-history-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
+.volunteer-history-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
 
-  .volunteer-history-table tr:hover {
-    background-color: #ddd;
-  } 
+.volunteer-history-table tbody tr:hover {
+  background-color: #ddd;
+}

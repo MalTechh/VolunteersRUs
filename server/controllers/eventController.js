@@ -1,7 +1,7 @@
 // controllers/eventController.js
 
 import EventDetails from '../models/EventDetails.js';
-import VolunteerHistories from '../models/VolunteerHistories.js';
+import VolunteerHistory from '../models/VolunteerHistory.js';
 
 export const createEvent = async (req, res) => {
   const eventData = req.body;
@@ -46,7 +46,7 @@ export const registerForEvent = async (req, res) => {
         return res.status(404).json({ error: 'Event not found' });
       }
   
-      const registration = await VolunteerHistories.create({
+      const registration = await VolunteerHistory.create({
         userId,
         eventId,
         participationStatus: 'Registered'

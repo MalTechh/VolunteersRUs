@@ -45,8 +45,7 @@ CREATE TABLE VolunteerHistory (
     UserID INT NOT NULL,
     EventID INT NOT NULL,
     ParticipationDate DATE NOT NULL,
-    Role VARCHAR(50) NOT NULL,
-    Status ENUM('Confirmed', 'Pending', 'Cancelled') NOT NULL,
+    Status ENUM('Confirmed', 'Pending', 'Cancelled') NOT NULL DEFAULT 'Pending',
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (UserID) REFERENCES UserProfile(UserID),
     FOREIGN KEY (EventID) REFERENCES EventDetails(EventID)

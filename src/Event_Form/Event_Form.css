@@ -1,6 +1,7 @@
+
 .container {
   width: 100%;
-  max-width: 800px; 
+  max-width: 800px;
   padding: 20px;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -8,7 +9,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  margin: 20px auto; 
+  margin: 20px auto;
   padding-bottom: 30px;
 }
 
@@ -28,7 +29,7 @@
   color: #333;
 }
 
-.header .underline {
+.header .signup-underline {
   width: 300px;
   height: 3px;
   background-color: #646cff;
@@ -64,14 +65,23 @@
   color: #333;
   resize: none;
   font-family: inherit;
+  width: calc(100% - 22px); /* Adjusted width to match other inputs */
 }
 
 .input select {
-  color: #333; 
+  color: #333;
+}
+
+.input select::placeholder {
+  color: #999; /* Placeholder color adjustment */
 }
 
 .input select[multiple] {
   height: auto;
+}
+
+.full-width-input {
+  width: calc(100% - 22px); /* Adjusted width for DatePicker */
 }
 
 .submit-container {
@@ -95,25 +105,21 @@
   background-color: #747bff;
 }
 
-.checkbox-group {
-  display: flex;
-  justify-content: center;
-  justify-content: space-around;
-  gap: 10px; 
-}
-
-.checkbox-group div {
-  display: flex;
-  align-items: center; 
-  margin-top: 1em;
-}
-
-.checkbox-group input[type="checkbox"] {
-  margin-bottom: 10px; 
-}
-
 .error {
-  color: #ff6b6b; 
+  color: #ff6b6b;
   font-size: 12px;
   margin-top: 5px;
 }
+
+#urgency {
+  width: 100%;
+  color: gray;
+}
+
+.custom-multi-select .multiselect-placeholder {
+  text-align: center;
+}
+
+.searchBox { 
+text-align: center;
+  }

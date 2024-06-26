@@ -5,6 +5,6 @@ import { getVolunteerHistory } from '../controllers/historyController.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 const router = Router();
 
-router.get('/history', authMiddleware, getVolunteerHistory);
+router.post('/history', authMiddleware, getVolunteerHistory);
 
 export default router;
