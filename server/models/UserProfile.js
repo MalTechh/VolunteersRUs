@@ -5,59 +5,61 @@ import UserCredentials from './UserCredentials.js';
 
 const UserProfile = sequelize.define('UserProfile', {
   UserID: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      references: {
-          model: 'UserCredentials', // table name, not the model name
-          key: 'UserID'
-      }
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    references: {
+      model: 'UserCredentials',
+      key: 'UserID'
+    }
   },
   FullName: {
-      type: DataTypes.STRING(50),
-      allowNull: false
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   Address1: {
-      type: DataTypes.STRING(100),
-      allowNull: false
+    type: DataTypes.STRING(100),
+    allowNull: false
   },
   Address2: {
-      type: DataTypes.STRING(100),
+    type: DataTypes.STRING(100),
   },
   City: {
-      type: DataTypes.STRING(100),
-      allowNull: false
+    type: DataTypes.STRING(100),
+    allowNull: false
   },
   State: {
-      type: DataTypes.STRING(50),
-      allowNull: false
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   ZipCode: {
-      type: DataTypes.STRING(9),
-      allowNull: false
+    type: DataTypes.STRING(9),
+    allowNull: false
   },
   Skills: {
-      type: DataTypes.STRING(255),
-      allowNull: false
+    type: DataTypes.STRING(255),
+    allowNull: false
   },
   Preferences: {
-      type: DataTypes.TEXT
+    type: DataTypes.TEXT
   },
   Availability: {
-      type: DataTypes.TEXT,
-      allowNull: false
+    type: DataTypes.TEXT,
+    allowNull: false
   },
   CreatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
   },
   UpdatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      onUpdate: DataTypes.NOW
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    onUpdate: DataTypes.NOW
   }
 }, {
   tableName: 'UserProfile',
-  timestamps: false // because CreatedAt and UpdatedAt are handled manually
+  timestamps: false
 });
 
-export default UserProfile
+UserProfile.belongsTo(UserCredentials, { foreignKey: 'UserID' });
+
+export default UserProfile;

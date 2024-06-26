@@ -6,6 +6,8 @@ import Login from './Authentication/LogIn';
 import EventForm from './Event_Form/Event_Form';
 import UserProfile from './User_Profile/UserProfile.jsx'
 import Home from './Homepage/Home.jsx'
+import Volunteer_History from './Volunteer_History/Volunteer_History.jsx';
+import VolunteerForm from './Volunteer_Form/Volunteer_Form';
 import './App.css';
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
           <Route path="/eventform" element={<EventForm />} />
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/volunteerhistory" element={<Volunteer_History />} />
+          <Route path="/volunteerform" element={<VolunteerForm />} />
         </Routes>
       </div>
     </Router>

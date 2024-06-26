@@ -23,3 +23,5 @@ database.js
 *.njsproj
 *.sln
 *.sw?
+
+.env

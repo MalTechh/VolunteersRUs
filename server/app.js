@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(cors({
     origin: 'http://localhost:5173', // Replace with your frontend URL
       methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type'],
+    allowedHeaders: ['Content-Type','Authorization'],
   }));
 
 app.use('/api', authRoutes);
