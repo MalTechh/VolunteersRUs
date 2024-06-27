@@ -8,11 +8,13 @@ import config from '../config/config.js';
 
 const { sign, verify } = jwt;
 
+// Registration handler
 export const register = async (req, res) => {
   const { email, passwordhash, username } = req.body;
 
+  // Basic validation
   if (!email || !passwordhash || !username) {
-    return res.status(400).json({ error: 'Password is required.' });
+    return res.status(400).json({ error: 'Email, password, and username are required.' });
   }
 
   try {
@@ -22,10 +24,13 @@ export const register = async (req, res) => {
     // Create the user in the database
     const user = await UserCredentials.create({ email, passwordhash: hashedPassword, username });
 
-    // Respond with success message
-    
-    const token = sign({ UserID: user.UserID }, config.jwtSecret);
-    
+    // Retrieve the UserType from the newly created user
+    const userType = user.UserType;
+   
+    // Sign the token with UserID and UserType
+    const token = sign({ UserID: user.UserID, UserType: userType }, config.jwtSecret);
+   
+    // Respond with the token
     res.json({ token });
 
   } catch (error) {
@@ -34,29 +39,41 @@ export const register = async (req, res) => {
   }
 };
 
+// Login handler
 export const login = async (req, res) => {
   const { email, passwordhash } = req.body;
 
   try {
-
+    // Find the user by email
     const user = await UserCredentials.findOne({ where: { email } });
- 
+
     if (!user) {
       return res.status(400).json({ error: 'Invalid credentials.' });
     }
+
+    // Compare the provided password with the hashed password
     const isMatch = await bcrypt.compare(passwordhash, user.passwordhash);
-  
-   
+
     if (!isMatch) {
       return res.status(400).json({ error: 'Invalid credentials.' });
     }
-    const token = sign({ userId: user.UserID }, config.jwtSecret);
+
+    // Retrieve the UserType from the user
+    const userType = user.userType;
+
+    // Sign the token with UserID and UserType
+    const token = sign({ UserID: user.UserID, UserType: userType }, config.jwtSecret);
+
+    // Respond with a success message and the token
     res.json({ message: 'Login successful!', token });
-    
+
   } catch (error) {
+    console.error('Error logging in:', error);
     res.status(500).json({ error: 'Error logging in.' });
   }
 };
+
+// Other functions remain the same...
 
 export const logout = (req, res) => {
   res.json({ message: 'Logout successful.' });

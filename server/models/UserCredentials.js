@@ -1,4 +1,5 @@
 // models/UserCredentials.js
+
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
@@ -25,7 +26,8 @@ const UserCredentials = sequelize.define('UserCredentials', {
   },
   UserType: {
     type: DataTypes.ENUM('Volunteer', 'Administrator'),
-    allowNull: true,
+    defaultValue: 'Volunteer', // Default value set to 'Volunteer'
+    allowNull: false, // Assuming UserType is required
   },
   CreatedAt: {
     type: DataTypes.DATE,

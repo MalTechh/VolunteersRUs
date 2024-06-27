@@ -11,10 +11,16 @@ export default function authMiddleware(req, res, next) {
   }
   try {
     const decoded = verify(token, 'your_jwt_secret');
-    req.user = { id: decoded.UserID};
-   
+    req.user = {
+      id: decoded.UserID,
+      type: decoded.UserType
+    };
+    
     next();
   } catch (error) {
     res.status(401).json({ error: 'Invalid token.' });
   }
 }
+
+
+

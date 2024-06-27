@@ -4,8 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignUp from './Authentication/SignUp';
 import Login from './Authentication/LogIn';
 import EventForm from './Event_Form/Event_Form';
-import VolunteerForm from './Volunteer_Form/Volunteer_Form';
-import VolunteerHistory from './Volunteer_History/VolunteerHistoryContainer.jsx';
 import UserProfile from './User_Profile/UserProfile.jsx'
 import Home from './Homepage/Home.jsx'
 import Volunteer_History from './Volunteer_History/Volunteer_History.jsx';
@@ -19,9 +17,7 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/eventform" element={<EventForm />} />
-          <Route path="/volunteerform" element={<VolunteerForm />} />
-          <Route path="/volunteerhistory" element={<VolunteerHistory />} />
+          <Route path="/eventform" element={<EventForm />} />      
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/home" element={<Home />} />
           <Route path="/volunteerhistory" element={<Volunteer_History />} />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Volunteer_History.css';
 
-const VolunteerHistoryComponent = () => {
+const Volunteer_History = () => {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
@@ -12,8 +12,11 @@ const VolunteerHistoryComponent = () => {
     const url = 'http://localhost:3000/api/history'; // Replace with your actual backend endpoint
     const token = sessionStorage.getItem('authToken');
     const decodedToken = JSON.parse(atob(token.split('.')[1]));
-    const { userId } = decodedToken;
-  
+
+    console.log(decodedToken);
+    const { UserID } = decodedToken;
+    console.log(UserID);
+
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -22,7 +25,7 @@ const VolunteerHistoryComponent = () => {
            Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          userId,
+          UserID,
         }),
       });
   
@@ -79,4 +82,4 @@ const VolunteerHistoryComponent = () => {
   );
 };
 
-export default VolunteerHistoryComponent;
+export default Volunteer_History;
