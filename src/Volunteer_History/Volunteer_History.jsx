@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Volunteer_History.css';
 
-const VolunteerHistoryComponent = () => {
+const Volunteer_History = () => {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
@@ -80,4 +80,4 @@ const VolunteerHistoryComponent = () => {
   );
 };
 
-export default VolunteerHistoryComponent;
+export default Volunteer_History;
