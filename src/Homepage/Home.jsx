@@ -2,6 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logout from '../Authentication/Logout.jsx';
 import axios from 'axios';
+import { notify } from '../Notification.jsx';
+
+const AnyComponent = () => {
+  const handleClick = () => {
+    notify('This is a notification message!');
+  };
+
+  return (
+    <div>
+      <button onClick={handleClick}>Show Notification</button>
+    </div>
+  );
+};
 
 const Home = () => {
   const [username, setUsername] = useState('');
@@ -67,6 +80,7 @@ const Home = () => {
           <p>Sign up as a volunteer</p>
         </Link>
       </div>
+      <AnyComponent />
     </>
   );
 };
