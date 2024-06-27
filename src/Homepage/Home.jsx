@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
 import Logout from '../Authentication/Logout.jsx';
-import axios from 'axios'; // Assuming you're using axios for HTTP requests
+import axios from 'axios';
 
 const Home = () => {
   const [username, setUsername] = useState('');
@@ -12,21 +12,34 @@ const Home = () => {
 
       if (token) {
         try {
+          // Decode the JWT token
           const decodedToken = JSON.parse(atob(token.split('.')[1]));
-          const { userId } = decodedToken;
+          console.log('Decoded Token:', decodedToken);
 
-          // Fetch username based on userId
-          const response = await axios.get(`http://localhost:3000/api/user/${userId}`);
+          // Correctly access UserID
+          const { UserID, UserType } = decodedToken; // Ensure this matches the token structure
+          
+          console.log('UserType:', UserType);
 
-          setUsername(response.data.username);
+          // Fetch username based on UserID
+          if (UserID) {
+            const response = await axios.get(`http://localhost:3000/api/user/${UserID}`);
+            setUsername(response.data.username);
+          } else {
+            console.error('UserID not found in the token.');
+          }
         } catch (error) {
-          console.error('Error fetching username:', error);
+          console.error('Error decoding token or fetching username:', error);
         }
+      } else {
+        console.warn('No auth token found in sessionStorage.');
       }
     };
 
     fetchUsername();
   }, []);
+
+        
 
   return (
     <>

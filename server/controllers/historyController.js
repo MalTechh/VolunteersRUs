@@ -5,11 +5,11 @@ import EventDetails from '../models/EventDetails.js';
 import UserProfile from '../models/UserProfile.js'; // Import UserProfile model
 
 export const getVolunteerHistory = async (req, res) => {
-  const { userId } = req.body;
-  console.log(req.body.userId);
+  const { UserID } = req.body;
+  console.log(req.body.UserID);
   try {
     const history = await VolunteerHistory.findAll({
-      where: { UserID: userId },
+      where: { UserID: UserID },
       include: [
         {
           model: EventDetails,
