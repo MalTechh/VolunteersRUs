@@ -25,3 +25,5 @@ database.js
 *.sw?
 
 .env
+
+config
