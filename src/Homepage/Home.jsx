@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Logout from '../Authentication/Logout.jsx';
+import Navbar from '../componenets/navbar.jsx';
 import axios from 'axios';
+import './Home.css';  // Import the CSS file for styling
 
 const Home = () => {
   const [username, setUsername] = useState('');
+  const [userType, setUserType] = useState('');
 
   useEffect(() => {
-    const fetchUsername = async () => {
+    const fetchUsernameAndUserType = async () => {
       const token = sessionStorage.getItem('authToken');
 
       if (token) {
         try {
           // Decode the JWT token
           const decodedToken = JSON.parse(atob(token.split('.')[1]));
-          console.log('Decoded Token:', decodedToken);
 
-          // Correctly access UserID
-          const { UserID, UserType } = decodedToken; // Ensure this matches the token structure
-          
-          console.log('UserType:', UserType);
+          // Correctly access UserID and UserType
+          const { UserID, UserType } = decodedToken;
+          console.log(UserID);
+          setUserType(UserType);
 
           // Fetch username based on UserID
           if (UserID) {
@@ -36,35 +37,35 @@ const Home = () => {
       }
     };
 
-    fetchUsername();
+    fetchUsernameAndUserType();
   }, []);
 
-        
+
 
   return (
     <>
-      <div>
-        <h1>Welcome to the Homepage</h1>
-        <Logout />
-        {username && <p>Welcome back, {username}!</p>}
+      <Navbar />
+      <div className="home-container">
+        {username && <p className="welcome-message">Welcome back, {username}!</p>}
       </div>
 
       <div className="home-cards">
-        <Link to="/eventform" className="home-card">
-          <h3>Event Form</h3>
-          <p>Create a new event</p>
-        </Link>
-        <Link to="/userprofile" className="home-card">
-          <h3>User Profile</h3>
-          <p>View and edit your profile</p>
-        </Link>
+        {/* Conditionally render Event Form and Volunteer Form based on userType */}
+        {userType !== 'Volunteer' && (
+          <>
+            <Link to="/eventform" className="home-card">
+              <h3>Event Form</h3>
+            </Link>
+            <Link to="/volunteerform" className="home-card">
+              <h3>Volunteer Form</h3>
+            </Link>
+          </>
+        )}
         <Link to="/volunteerhistory" className="home-card">
           <h3>Volunteer History</h3>
-          <p>View your volunteer history</p>
         </Link>
-        <Link to="/volunteerform" className="home-card">
-          <h3>Volunteer Form</h3>
-          <p>Sign up as a volunteer</p>
+        <Link to="/editprofile" className="home-card">
+          <h3>Edit User Profile</h3>
         </Link>
       </div>
     </>

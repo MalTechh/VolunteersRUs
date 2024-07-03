@@ -1,19 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Logout.css';  // Import CSS for the logout button
 
 const Logout = () => {
 
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    
     sessionStorage.removeItem('authToken');
-  
     navigate('/login');
   };
 
   return (
-    <button onClick={handleLogout}>Logout</button>
+    <button className="logout-button" onClick={handleLogout}>Logout</button>
   );
 };
 

@@ -47,6 +47,8 @@ export const login = async (req, res) => {
     // Find the user by email
     const user = await UserCredentials.findOne({ where: { email } });
 
+    const userType = user.UserType;
+
     if (!user) {
       return res.status(400).json({ error: 'Invalid credentials.' });
     }
@@ -59,7 +61,6 @@ export const login = async (req, res) => {
     }
 
     // Retrieve the UserType from the user
-    const userType = user.userType;
 
     // Sign the token with UserID and UserType
     const token = sign({ UserID: user.UserID, UserType: userType }, config.jwtSecret);

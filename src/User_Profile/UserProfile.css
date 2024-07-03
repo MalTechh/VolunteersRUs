@@ -4,6 +4,7 @@
   align-items: center;
   height: 100vh;
   font-family: Arial, sans-serif;
+  flex-direction: column;
 }
 
 .user-profile-container {
@@ -173,3 +174,43 @@
     color: #333; /* Example color; adjust as per your design */
 }
 
+.user-profile-buttons {
+  width: 50%;
+  display: flex;
+  justify-content: start;
+}
+
+.user-profile-buttons button {
+  margin-right: 10px; /* Adds space between buttons */
+  padding: 10px 20px; /* Adjust padding for button size */
+  font-size: 16px; /* Adjust font size */
+  border: none; /* Remove default border */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.user-profile-buttons button.btn-primary {
+  background-color: #007bff; /* Primary button color */
+  color: white; /* Text color */
+}
+
+.user-profile-buttons button.btn-primary:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.user-profile-buttons button.btn-success {
+  background-color: #28a745; /* Success button color */
+  color: white; /* Text color */
+}
+
+.user-profile-buttons button.btn-success:hover {
+  background-color: #218838; /* Darker shade on hover */
+}
+
+.user-profile-buttons button.btn-secondary {
+  background-color: #6c757d; /* Secondary button color */
+  color: white; /* Text color */
+}
+
+.user-profile-buttons button.btn-secondary:hover {
+  background-color: #5a6268; /* Darker shade on hover */
+}
