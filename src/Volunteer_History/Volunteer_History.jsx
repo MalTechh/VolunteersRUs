@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Navbar from '../componenets/navbar.jsx'
 import './Volunteer_History.css';
 
 const Volunteer_History = () => {
@@ -42,6 +43,8 @@ const Volunteer_History = () => {
   };
   
   return (
+    <>
+    <Navbar />
     <div className="volunteer-history">
       <h2>Volunteer History</h2>
       <table className="volunteer-history-table">
@@ -79,6 +82,7 @@ const Volunteer_History = () => {
         </tbody>
       </table>
     </div>
+    </>
   );
 };
 

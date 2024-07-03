@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { addDays } from 'date-fns'; // Import addDays function
+import Navbar from '../componenets/navbar';
 import MultiSelect from 'multiselect-react-dropdown';
 
 const Event_Form = () => {
@@ -97,6 +98,7 @@ const Event_Form = () => {
 
   return (
     <div className="auth-background">
+       <Navbar />
       <div className="container">
         <div className="header">
           <div className="text">Create Event</div>

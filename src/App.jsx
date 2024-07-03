@@ -9,6 +9,7 @@ import Home from './Homepage/Home.jsx'
 import Notification from './Notification';
 import Volunteer_History from './Volunteer_History/Volunteer_History.jsx';
 import VolunteerForm from './Volunteer_Form/Volunteer_Form';
+import EditProfile from './User_Profile/EditProfile.jsx';
 import './App.css';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/eventform" element={<EventForm />} />      
           <Route path="/userprofile" element={<UserProfile />} />
+          <Route path="/editprofile" element={<EditProfile />} />
           <Route path="/home" element={<Home />} />
           <Route path="/volunteerhistory" element={<Volunteer_History />} />
           <Route path="/volunteerform" element={<VolunteerForm />} />
