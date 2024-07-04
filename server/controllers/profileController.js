@@ -41,9 +41,8 @@ export const createProfile = async (req, res) => {
     availability,
   } = req.body;
 
-  console.log("all the body is recieved as stringify in the frontend: ", req.body);
   const newAvailability = JSON.stringify(availability) 
-  console.log("availability is JSON.stringify before being created", newAvailability);
+
   try {
     const profile = await UserProfile.create({
       UserID: userId, // Make sure this matches the column name in your model

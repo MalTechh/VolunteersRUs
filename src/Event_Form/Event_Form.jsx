@@ -97,8 +97,9 @@ const Event_Form = () => {
   ];
 
   return (
+    <>
+    <Navbar />
     <div className="auth-background">
-       <Navbar />
       <div className="container">
         <div className="header">
           <div className="text">Create Event</div>
@@ -217,6 +218,7 @@ const Event_Form = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -5,35 +5,48 @@ import EventDetails from '../models/EventDetails.js';
 import UserProfile from '../models/UserProfile.js'; // Import UserProfile model
 
 export const getVolunteerHistory = async (req, res) => {
-
   const { UserID } = req.body;
-  console.log(req.body.UserID);
+  
+  console.log('Received UserID:', UserID);
+  
+  // Check if UserID is valid
+  if (!UserID) {
+    return res.status(400).json({ error: 'UserID is required.' });
+  }
+
   try {
+    // Fetch volunteer history with associated event details
     const history = await VolunteerHistory.findAll({
       where: { UserID: UserID },
       include: [
         {
           model: EventDetails,
-          as: 'eventDetails', // Alias defined in VolunteerHistory model
+          as: 'eventDetails',
           attributes: ['EventName', 'Description', 'Location', 'RequiredSkills', 'Urgency', 'EventDate'],
         }
       ],
-      attributes: ['UserID', 'ParticipationDate', 'Status'], // Include attributes from VolunteerHistory
-      raw: true // Ensures raw data is fetched
+      attributes: ['Status', 'UserID'], // Fetch Status and UserID for later mapping
+      raw: true // Fetch raw data without complex nested structure
     });
+
+    console.log('Fetched Volunteer History:', history);
 
     if (!history.length) {
       return res.status(404).json({ error: 'No volunteer history found.' });
     }
 
-    // Fetch FullName from UserProfile using UserIDs in history
-    const userIds = history.map(item => item.UserID);
+    // Extract unique UserIDs from the history data
+    const userIds = [...new Set(history.map(item => item.UserID))];
+
+    // Fetch user profiles for the relevant UserIDs
     const userProfiles = await UserProfile.findAll({
       where: { UserID: userIds },
       attributes: ['UserID', 'FullName']
     });
 
-    // Map history items with FullName from UserProfile
+    console.log('Fetched User Profiles:', userProfiles);
+
+    // Map the fetched history and user profiles into a structured response
     const formattedHistory = history.map(item => {
       const userProfile = userProfiles.find(profile => profile.UserID === item.UserID);
       return {
@@ -44,10 +57,11 @@ export const getVolunteerHistory = async (req, res) => {
         RequiredSkills: item['eventDetails.RequiredSkills'],
         Urgency: item['eventDetails.Urgency'],
         EventDate: item['eventDetails.EventDate'],
-        Status: item.Status // Assuming Status is a field in VolunteerHistory
+        Status: item.Status
       };
     });
 
+    // Send the structured response
     res.json({ history: formattedHistory });
   } catch (error) {
     console.error('Error fetching volunteer history:', error);

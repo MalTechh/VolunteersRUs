@@ -1,9 +1,6 @@
 // models/VolunteerHistory.js
-
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
-import UserProfile from './UserProfile.js'; // Adjust path as per your structure
-import EventDetails from './EventDetails.js'; // Correct import without alias
 
 const VolunteerHistory = sequelize.define('VolunteerHistory', {
   ParticipationID: {
@@ -15,7 +12,7 @@ const VolunteerHistory = sequelize.define('VolunteerHistory', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: UserProfile,
+      model: 'UserProfile', // Use string if reference is needed before initialization
       key: 'UserID'
     }
   },
@@ -45,11 +42,4 @@ const VolunteerHistory = sequelize.define('VolunteerHistory', {
   timestamps: false
 });
 
-// Define association after both models are initialized
-VolunteerHistory.belongsTo(EventDetails, {
-  foreignKey: 'EventID',
-  targetKey: 'EventID',
-  as: 'eventDetails'
-});
-
-export default VolunteerHistory; // Ensure export default is used
+export default VolunteerHistory;
