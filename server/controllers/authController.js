@@ -48,7 +48,7 @@ export const login = async (req, res) => {
     const user = await UserCredentials.findOne({ where: { email } });
 
     const userType = user.UserType;
-
+    console.log(userType);
     if (!user) {
       return res.status(400).json({ error: 'Invalid credentials.' });
     }

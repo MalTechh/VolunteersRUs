@@ -68,7 +68,7 @@ const Volunteer_History = () => {
                 <td>{event.EventName}</td>
                 <td>{event.Description}</td>
                 <td>{event.Location}</td>
-                <td>{event.RequiredSkills}</td> {/* Assuming RequiredSkills is a string */}
+                <td>{event.RequiredSkills}</td> 
                 <td>{event.Urgency}</td>
                 <td>{event.EventDate}</td>
                 <td>{event.Status}</td>
