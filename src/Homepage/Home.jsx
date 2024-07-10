@@ -76,12 +76,17 @@ const Home = () => {
             </Link>
           </>
         )}
-        <Link to="/volunteerhistory" className="home-card">
-          <h3>Volunteer History</h3>
-        </Link>
-        <Link to="/editprofile" className="home-card">
-          <h3>Edit User Profile</h3>
-        </Link>
+        {userType !== 'Administrator' && (
+          <>
+            <Link to="/volunteerhistory" className="home-card">
+              <h3>Volunteer History</h3>
+            </Link>
+            <Link to="/editprofile" className="home-card">
+              <h3>Edit User Profile</h3>
+            </Link>
+          </>
+        )}
+       
       </div>
       <AnyComponent />
     </>
