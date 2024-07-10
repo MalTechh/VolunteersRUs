@@ -7,6 +7,8 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
 
+  //Handle Administrator
+
   const handleSignUp = () => {
     let formIsValid = true;
     const newErrors = { email: '', password: '' };
@@ -69,6 +71,9 @@ const SignUp = () => {
             />
             {errors.password && <span className="error">{errors.password}</span>}
           </div>
+
+          {/* Administrator */}
+
         </div>
 
         <div className="signup-submit-container">
