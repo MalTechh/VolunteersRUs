@@ -30,7 +30,7 @@ export const register = async (req, res) => {
     const token = sign({ UserID: user.UserID, UserType: userType }, config.jwtSecret);
 
     // Respond with the token
-    res.json({ token });
+    res.status(201).json({ token });
 
   } catch (error) {
     console.error('Error registering user:', error);

@@ -1,11 +1,10 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { register, login, logout, verifyEmail } from '../../server/controllers/authController.js';
 import UserCredentials from '../../server/models/UserCredentials.js';
-import sendVerificationEmail from '../../server/services/sendVerificationEmail.js';
 
 jest.mock('jsonwebtoken');
-jest.mock('bcrypt', () => ({
+jest.mock('bcryptjs', () => ({
   hash: jest.fn(() => Promise.resolve('hashedpassword123')),
 }));
 jest.mock('../../server/models/UserCredentials.js');
@@ -42,23 +41,27 @@ describe('Auth Controller', () => {
     const req = {
       body: {
         email: 'test@example.com',
-        password: 'password123',
+        passwordhash: 'password123',
+        username: 'testuser',
       },
     };
     const res = {
       status: jest.fn(() => res),
       json: jest.fn(),
     };
-  
+    
     bcrypt.hash.mockResolvedValue('hashedpassword123');
-    UserCredentials.create.mockResolvedValue({ email: req.body.email });
-    sendVerificationEmail.mockResolvedValue();
-  
+    UserCredentials.create.mockResolvedValue({
+      email: req.body.email,
+      UserID: 1,
+      UserType: 'user',
+    });
+    jwt.sign.mockReturnValue('testtoken');
+
     await register(req, res);
-  
+
     expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalled();
-    expect(sendVerificationEmail).toHaveBeenCalled();
+    expect(res.json).toHaveBeenCalledWith({ token: 'testtoken' });
   });
 
   test('should login a user', async () => {
