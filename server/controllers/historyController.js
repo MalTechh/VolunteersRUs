@@ -62,7 +62,7 @@ export const getVolunteerHistory = async (req, res) => {
     });
 
     // Send the structured response
-    res.json({ history: formattedHistory });
+    res.status(200).json({ history: formattedHistory });
   } catch (error) {
     console.error('Error fetching volunteer history:', error);
     res.status(500).json({ error: 'Error fetching volunteer history.' });

@@ -1,16 +1,12 @@
 import { createEvent, getEvents, registerForEvent } from '../../server/controllers/eventController.js';
 import EventDetails from '../../server/models/EventDetails.js';
+import VolunteerHistory from '../../server/models/VolunteerHistory.js';
+
+jest.mock('../../server/models/EventDetails.js'); 
+jest.mock('../../server/models/VolunteerHistory.js');
 
 describe('Event Controller', () => {
   let req, res;
-
-  beforeAll(async () => {
-    try {
-      await EventDetails.sync(); 
-    } catch (error) {
-      console.error('Error syncing EventDetails model:', error);
-    }
-  });
 
   beforeEach(() => {
     req = {
@@ -33,6 +29,14 @@ describe('Event Controller', () => {
       eventDate: '2024-07-01',
     };
 
+    const saveMock = jest.fn().mockResolvedValue(req.body);
+    EventDetails.mockImplementation(() => {
+      return {
+        save: saveMock,
+        ...req.body
+      };
+    });
+
     await createEvent(req, res);
 
     expect(res.status).toHaveBeenCalledWith(201);
@@ -52,11 +56,23 @@ describe('Event Controller', () => {
       eventId: 1,
     };
 
+    EventDetails.findByPk.mockResolvedValue({ id: 1 });
+    VolunteerHistory.create.mockResolvedValue({
+      userId: req.user.id,
+      eventId: req.body.eventId,
+      participationStatus: 'Registered'
+    });
+
     await registerForEvent(req, res);
 
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
       message: 'Registered for event successfully',
+      registration: expect.objectContaining({
+        userId: req.user.id,
+        eventId: req.body.eventId,
+        participationStatus: 'Registered'
+      })
     }));
   });
 });

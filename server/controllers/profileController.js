@@ -14,11 +14,11 @@ export const getProfile = async (req, res) => {
     }
 
     // Parse Skills and Availability from JSON strings to arrays
-    const skills = JSON.parse(profile.Skills);
-    const availability = JSON.parse(profile.Availability);
+    const skills = profile.Skills ? JSON.parse(profile.Skills) : [];
+    const availability = profile.Availability ? JSON.parse(profile.Availability) : [];
 
     // Return profile with parsed arrays
-    res.json({ ...profile.toJSON(), Skills: skills, Availability: availability });
+    res.status(200).json({ ...profile.toJSON(), Skills: skills, Availability: availability });
   } catch (error) {
     console.error('Error fetching profile:', error);
     res.status(500).json({ error: 'Server error. Please try again.' });
@@ -68,7 +68,6 @@ export const updateProfile = async (req, res) => {
   const userId = req.user.id;
   const profileData = req.body;
 
-
   try {
     const profile = await UserProfile.findOne({ where: { UserID: userId } });
 
@@ -76,13 +75,13 @@ export const updateProfile = async (req, res) => {
       return res.status(404).json({ error: 'Profile not found' });
     }
 
-   
-
-    if (profileData.Availability) {
-      profileData.Availability = JSON.stringify(profileData.Availability);
+    if (profileData.skills) {
+      profileData.Skills = JSON.stringify(profileData.skills);
     }
 
-
+    if (profileData.availability) {
+      profileData.Availability = JSON.stringify(profileData.availability);
+    }
 
     await profile.update(profileData);
 
@@ -90,14 +89,12 @@ export const updateProfile = async (req, res) => {
     const updatedProfile = await UserProfile.findOne({ where: { UserID: userId } });
 
     // Parse Skills and Availability from JSON strings to arrays
-    const skills = JSON.parse(updatedProfile.Skills);
-    const availability = JSON.parse(updatedProfile.Availability);
+    const skills = updatedProfile.Skills ? JSON.parse(updatedProfile.Skills) : [];
+    const availability = updatedProfile.Availability ? JSON.parse(updatedProfile.Availability) : [];
 
-    res.json({ ...updatedProfile.toJSON(), Skills: skills, Availability: availability });
+    res.status(200).json({ ...updatedProfile.toJSON(), Skills: skills, Availability: availability });
   } catch (error) {
     console.error('Error updating profile:', error);
     res.status(400).json({ error: 'Error updating profile.' });
   }
 };
-
-

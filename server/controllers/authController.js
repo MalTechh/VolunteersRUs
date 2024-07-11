@@ -1,9 +1,8 @@
 // controllers/authController.js
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs'; // Change to bcryptjs
 import jwt from 'jsonwebtoken';
 import UserCredentials from '../models/UserCredentials.js';
-import sendVerificationEmail from '../services/sendVerificationEmail.js';
 import config from '../config/config.js';
 
 const { sign, verify } = jwt;
@@ -26,10 +25,10 @@ export const register = async (req, res) => {
 
     // Retrieve the UserType from the newly created user
     const userType = user.UserType;
-   
+
     // Sign the token with UserID and UserType
     const token = sign({ UserID: user.UserID, UserType: userType }, config.jwtSecret);
-   
+
     // Respond with the token
     res.json({ token });
 
@@ -47,16 +46,18 @@ export const login = async (req, res) => {
     // Find the user by email
     const user = await UserCredentials.findOne({ where: { email } });
 
-    const userType = user.UserType;
-    console.log(userType);
     if (!user) {
       return res.status(400).json({ error: 'Invalid credentials.' });
     }
 
     // Compare the provided password with the hashed password
-   
+    const isMatch = await bcrypt.compare(passwordhash, user.passwordhash);
+    if (!isMatch) {
+      return res.status(400).json({ error: 'Invalid credentials.' });
+    }
 
     // Retrieve the UserType from the user
+    const userType = user.UserType;
 
     // Sign the token with UserID and UserType
     const token = sign({ UserID: user.UserID, UserType: userType }, config.jwtSecret);
@@ -89,7 +90,6 @@ export const verifyEmail = async (req, res) => {
   }
 };
 
-
 export const getUserById = async (req, res) => {
   const { userId } = req.params;
 
@@ -99,7 +99,7 @@ export const getUserById = async (req, res) => {
       return res.status(404).json({ error: 'User not found.' });
     }
     res.json({ username: user.username }); // Send back the username
-   
+
   } catch (error) {
     console.error('Error fetching user:', error);
     res.status(500).json({ error: 'Internal Server Error.' });
