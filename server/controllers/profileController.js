@@ -12,11 +12,11 @@ export const getProfile = async (req, res) => {
       console.log('Profile not found for userId:', userId);
       return res.status(404).json({ error: 'Profile not found.' });
     }
-
+    console.log("before JSON parse", profile.Availability);
     // Parse Skills and Availability from JSON strings to arrays
     const skills = profile.Skills ? JSON.parse(profile.Skills) : [];
     const availability = profile.Availability ? JSON.parse(profile.Availability) : [];
-
+    console.log("after JSON parse", availability);
     // Return profile with parsed arrays
     res.status(200).json({ ...profile.toJSON(), Skills: skills, Availability: availability });
   } catch (error) {
@@ -41,8 +41,6 @@ export const createProfile = async (req, res) => {
     availability,
   } = req.body;
 
-  const newAvailability = JSON.stringify(availability) 
-
   try {
     const profile = await UserProfile.create({
       UserID: userId, // Make sure this matches the column name in your model
@@ -54,7 +52,7 @@ export const createProfile = async (req, res) => {
       ZipCode: zipCode,
       Skills: JSON.stringify(skills), // Convert array to JSON string
       Preferences: preferences,
-      Availability: newAvailability,
+      Availability: JSON.stringify(availability), // Convert array to JSON string
     });
 
     res.status(201).json(profile);
@@ -63,6 +61,7 @@ export const createProfile = async (req, res) => {
     res.status(400).json({ error: 'Error creating profile.' });
   }
 };
+
 
 export const updateProfile = async (req, res) => {
   const userId = req.user.id;
@@ -74,14 +73,18 @@ export const updateProfile = async (req, res) => {
     if (!profile) {
       return res.status(404).json({ error: 'Profile not found' });
     }
-
+    console.log("update before stringify: ", profileData.Availability);
     if (profileData.skills) {
-      profileData.Skills = JSON.stringify(profileData.skills);
+      profileData.Skills = JSON.stringify(profileData.Skills);
     }
 
-    if (profileData.availability) {
-      profileData.Availability = JSON.stringify(profileData.availability);
+    console.log('Availability before update:', profileData.Availability); // Log the original array
+
+    if (profileData.Availability) { 
+      profileData.Availability = JSON.stringify(profileData.Availability);
+      console.log('Availability after stringification:', profileData.Availability); // Log after stringify
     }
+
 
     await profile.update(profileData);
 

@@ -202,7 +202,8 @@ const EditProfile = () => {
   
       // Mapping skills to array of strings
       const mappedSkills = skills.map(skill => skill.label);
-      
+        console.log(availabilities);
+        console.log(mappedSkills);
       // Mapping availabilities to ISO strings
 
       try {
