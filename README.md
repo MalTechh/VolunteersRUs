@@ -2,40 +2,10 @@ Hello TA these are easy instructions to use the APP.
 
 1. Clone the repo
 
-2. In the server folder, make a folder called config.
-3. In the config folder make 2 files: config.js and database.js
+2. Download MySQL then make then run this command:
+CREATE DATABASE vrus;
 
-4. Put the following code in config.js:
-   
-///////////////////////////////////////////////////////////////////////////////////////////
-   import dotenv from 'dotenv';
-dotenv.config();
-
-console.log('DB_HOST:', process.env.DB_HOST);
-console.log('DB_USER:', process.env.DB_USER);
-console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
-console.log('DB_DATABASE:', process.env.DB_DATABASE);
-console.log('DB_PORT:', process.env.DB_PORT);
-
-const config = {
-    jwtSecret: "your_jwt_secret",
-    db: {
-        host: process.env.DB_HOST || 'localhost',
-        username: process.env.DB_USER || 'root', 
-        password: process.env.DB_PASSWORD || '', 
-        database: process.env.DB_DATABASE || 'vrus', 
-        port: process.env.DB_PORT || 3306, 
-        dialect: 'mysql',
-    },
-  
-}
-export default config;
-///////////////////////////////////////////////////////////////////////////////////////////
-
-5. Put the following 
-
-
-Make a .env file and include connection details or a url for a mysql db 
+3. In the Database run the MySQL code in between the MySQL tables dashes 
 
 MySQL tables
 ------------------------------------------------------------------------------ 
@@ -105,3 +75,4 @@ CREATE TABLE `Notifications` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+------------------------------------------------------------------------------ 
