@@ -4,41 +4,20 @@ import Logout from "../Authentication/Logout.jsx";
 import "./navbar.css";  // Import CSS for the navbar
 
 function NavBar() {
-  const [userRole, setUserRole] = useState('');
+  const [userType, setUserType] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserRole = async () => {
-      const token = sessionStorage.getItem('authToken');
-
-      if (token) {
-        try {
-          // Decode the JWT token
-          const decodedToken = JSON.parse(atob(token.split('.')[1]));
-          
-
-          // Extract UserType from the token
-          const { UserType } = decodedToken;
-          
-    
-
-          // Set user role based on UserType
-          if (UserType) {
-            setUserRole(UserType === 'Volunteer' ? 'Role: Volunteer' : 'Role: Unknown'); // Adjust as per your UserType values
-          } else {
-            setUserRole('Role: Unknown');
-          }
-        } catch (error) {
-          console.error('Error decoding token:', error);
-        }
-      } else {
-        console.warn('No auth token found in sessionStorage.');
-      }
-    };
-
-    fetchUserRole();
-  }, []);
-
+    const token = sessionStorage.getItem('authToken');
+    if (token) {
+      // Decode the JWT token
+      const decodedToken = JSON.parse(atob(token.split('.')[1]));
+      
+      // Correctly access UserID and UserType
+      const { UserType } = decodedToken;
+      setUserType(UserType);
+    }
+  }, []); 
 
   const handleNavigateToHome = () => {
     navigate('/home');
@@ -52,7 +31,7 @@ function NavBar() {
      
           
             <div className="nav-role">
-              {userRole && <span>{userRole}</span>}
+              {userType && <span>{userType}</span>}
             </div>
 
            <div className="nav-title" onClick={handleNavigateToHome}>

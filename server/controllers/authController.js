@@ -9,25 +9,34 @@ const { sign, verify } = jwt;
 
 // Registration handler
 export const register = async (req, res) => {
-  const { email, passwordhash, username } = req.body;
+  const { email, passwordhash, username, admin } = req.body;
 
   // Basic validation
   if (!email || !passwordhash || !username) {
     return res.status(400).json({ error: 'Email, password, and username are required.' });
   }
 
+  const UserType = admin === 1 ? 'Administrator' : 'Volunteer';
+
   try {
     // Hash the password
     const hashedPassword = await bcrypt.hash(passwordhash, 10);
 
     // Create the user in the database
-    const user = await UserCredentials.create({ email, passwordhash: hashedPassword, username });
+    const user = await UserCredentials.create({
+      email,
+      passwordhash: hashedPassword,
+      username,
+      UserType,
+    });
+
 
     // Retrieve the UserType from the newly created user
     const userType = user.UserType;
 
     // Sign the token with UserID and UserType
-    const token = sign({ UserID: user.UserID, UserType: userType }, config.jwtSecret);
+    const token = sign({ UserID: user.UserID, UserType: user.UserType }, config.jwtSecret);
+   
 
     // Respond with the token
     res.status(201).json({ token });
@@ -38,9 +47,8 @@ export const register = async (req, res) => {
   }
 };
 
-// Login handler
 export const login = async (req, res) => {
-  const { email, passwordhash } = req.body;
+  const { email, password } = req.body; // Change to password to reflect raw password input
 
   try {
     // Find the user by email
@@ -50,9 +58,11 @@ export const login = async (req, res) => {
       return res.status(400).json({ error: 'Invalid credentials.' });
     }
 
-    // Compare the provided password with the hashed password
-    const isMatch = await bcrypt.compare(passwordhash, user.passwordhash);
-    if (!isMatch) {
+    const isPasswordValid = await bcrypt.compare(password, user.passwordhash);
+
+    // Check if the password is valid
+    if (!isPasswordValid) {
+
       return res.status(400).json({ error: 'Invalid credentials.' });
     }
 

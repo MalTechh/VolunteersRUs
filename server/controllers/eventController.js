@@ -1,7 +1,7 @@
 // controllers/eventController.js
 
 import EventDetails from '../models/EventDetails.js';
-import VolunteerHistory from '../models/VolunteerHistory.js';
+import VolunteerHistory from '../models/VolunteerHistory.js'
 
 export const createEvent = async (req, res) => {
   const eventData = req.body;
@@ -14,73 +14,73 @@ export const createEvent = async (req, res) => {
   }
 };
 
-export const getEvents = async (req, res) => {
+export const getEventById = async (req, res) => {
+  const { eventId } = req.params;
+
   try {
-    const events = await EventDetails.findAll();
-    res.json(events);
+    const event = await EventDetails.findOne({ where: { EventID: eventId } });
+
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    return res.status(200).json(event);
   } catch (error) {
-    res.status(400).json({ error: 'Error fetching events.' });
+    console.error('Error fetching event:', error);
+    return res.status(500).json({ message: 'Failed to fetch event' });
   }
 };
 
-export const getEvent = async (req, res) => {
-    try {
-      const event = await EventDetails.findByPk(req.params.id);
-      if (!event) {
-        return res.status(404).json({ error: 'Event not found.' });
-      }
-      res.json(event);
-    } catch (error) {
-      res.status(500).json({ error: 'Error fetching event.' });
-    }
-  };
-  
+export const getAllEvents = async (req, res) => {
+  try {
+    const events = await EventDetails.findAll();
+    return res.status(200).json(events);
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    return res.status(500).json({ message: 'Failed to fetch events' });
+  }
+};
 
-export const registerForEvent = async (req, res) => {
-    const { eventId } = req.body;
-    const userId = req.user.id; 
-  
-    try {
-      const event = await EventDetails.findByPk(eventId);
-      if (!event) {
-        return res.status(404).json({ error: 'Event not found' });
-      }
-  
-      const registration = await VolunteerHistory.create({
-        userId,
-        eventId,
-        participationStatus: 'Registered'
-      });
-  
-      res.status(201).json({ message: 'Registered for event successfully', registration });
-    } catch (error) {
-      res.status(500).json({ error: 'Error registering for event' });
-    }
-  };
+export const updateEvent = async (req, res) => {
+  const { eventId } = req.params;
+  const { EventName, Description, Location, RequiredSkills, Urgency, EventDate } = req.body;
 
-  export const updateEvent = async (req, res) => {
-    try {
-      const event = await EventDetails.findByPk(req.params.id);
-      if (!event) {
-        return res.status(404).json({ error: 'Event not found.' });
-      }
-      await event.update(req.body);
-      res.json({ message: 'Event updated successfully.', event });
-    } catch (error) {
-      res.status(500).json({ error: 'Error updating event.' });
-    }
-  };
-  
+  try {
+    const [updated] = await EventDetails.update(
+      { EventName, Description, Location, RequiredSkills, Urgency, EventDate },
+      { where: { EventID: eventId } }
+    );
 
-  export const deleteEvent = async (req, res) => {
-    try {
-      const event = await EventDetails.findByPk(req.params.id);
-      if (!event) {
-        return res.status(404).json({ error: 'Event not found.' });
-      }
-      await event.destroy();
-      res.json({ message: 'Event deleted successfully.' });
-    } catch (error) {
-      res.status(500).json({ error: 'Error deleting event.' });
+    if (!updated) {
+      return res.status(404).json({ message: 'Event not found' });
     }
-  };  
+
+    const updatedEvent = await EventDetails.findOne({ where: { EventID: eventId } });
+    return res.status(200).json(updatedEvent);
+  } catch (error) {
+    console.error('Error updating event:', error);
+    return res.status(500).json({ message: 'Failed to update event' });
+  }
+};
+
+
+export const deleteEvent = async (req, res) => {
+  const { eventId } = req.params;
+
+  try {
+    // Delete related volunteer history first
+    await VolunteerHistory.destroy({
+      where: { EventID: eventId }
+    });
+
+    // Then delete the event
+    await EventDetails.destroy({
+      where: { EventID: eventId }
+    });
+
+    return res.status(200).json({ message: 'Event deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting event:', error);
+    return res.status(500).json({ message: 'Error deleting event', error });
+  }
+};

@@ -34,7 +34,7 @@ const Home = () => {
 
           // Correctly access UserID and UserType
           const { UserID, UserType } = decodedToken;
-          console.log(UserID);
+
           setUserType(UserType);
 
           // Fetch username based on UserID
@@ -55,8 +55,6 @@ const Home = () => {
     fetchUsernameAndUserType();
   }, []);
 
-
-
   return (
     <>
       <Navbar />
@@ -73,6 +71,9 @@ const Home = () => {
             </Link>
             <Link to="/volunteerform" className="home-card">
               <h3>Volunteer Form</h3>
+            </Link>
+            <Link to="/eventmanagement" className="home-card">
+              <h3>Manage Events</h3>
             </Link>
           </>
         )}

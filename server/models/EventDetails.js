@@ -1,4 +1,4 @@
-// models/Event.js
+// models/EventDetails.js
 
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
@@ -11,36 +11,40 @@ const EventDetails = sequelize.define('EventDetails', {
   },
   EventName: {
     type: DataTypes.STRING(100),
-    allowNull: false,
+    allowNull: false
   },
-  eventDescription: {
+  Description: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: false
   },
-  location: {
+  Location: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: false
   },
-  requiredSkills: {
-    type: DataTypes.JSON,
-    allowNull: false,
+  RequiredSkills: {
+    type: DataTypes.STRING(255),
+    allowNull: false
   },
-  urgency: {
-    type: DataTypes.STRING,
-    allowNull: false,
+  Urgency: {
+    type: DataTypes.ENUM('High', 'Medium', 'Low'),
+    allowNull: false
   },
-  eventDate: {
-    type: DataTypes.DATE, 
-    allowNull: false,
+  EventDate: {
+    type: DataTypes.DATE,
+    allowNull: false
   },
-  createdAt: {
+  CreatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
+  },
+  UpdatedAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
+    onUpdate: DataTypes.NOW
+  }
+}, {
+  tableName: 'EventDetails',
+  timestamps: false
 });
 
 export default EventDetails;

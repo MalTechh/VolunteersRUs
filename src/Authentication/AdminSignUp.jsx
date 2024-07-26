@@ -9,8 +9,11 @@ const SignUp = () => {
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
 
+
+  
   const handleSignUp = async () => {
-    const admin = 0;
+    const admin = 1;
+
     const url = 'http://localhost:3000/api/register'; // Adjust the URL based on your server setup
     const response = await fetch(url, {
       method: 'POST',

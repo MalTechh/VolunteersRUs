@@ -123,3 +123,13 @@
 .searchBox { 
 text-align: center;
   }
+
+  .event-list {
+    max-height: 400px; /* Set a maximum height */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Optional: Add a border for visibility */
+    padding: 10px; /* Optional: Add padding */
+    border-radius: 5px; /* Optional: Add rounded corners */
+    margin-top: 10px; /* Optional: Add margin */
+  }
+  
