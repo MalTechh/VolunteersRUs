@@ -2,6 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignUp from './Authentication/SignUp';
+import AdminSignUp from './Authentication/AdminSignUp.jsx'
 import Login from './Authentication/LogIn';
 import EventForm from './Event_Form/Event_Form';
 import UserProfile from './User_Profile/UserProfile.jsx'
@@ -19,7 +20,8 @@ function App() {
         <Notification />
         <Routes>
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/adminsignup" element={<AdminSignUp/>} />
+          <Route path="/" element={<Login />} />
           <Route path="/eventform" element={<EventForm />} />      
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/editprofile" element={<EditProfile />} />

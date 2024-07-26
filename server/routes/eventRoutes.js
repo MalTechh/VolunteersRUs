@@ -12,4 +12,5 @@ router.get('/events/:id', authMiddleware, getEvent);
 router.put('/events/:id', authMiddleware, updateEvent);
 router.delete('/events/:id', authMiddleware, deleteEvent);
 
+
 export default router;

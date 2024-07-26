@@ -8,7 +8,7 @@ const Logout = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem('authToken');
-    navigate('/login');
+    navigate('/');
   };
 
   return (

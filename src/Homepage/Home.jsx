@@ -34,7 +34,7 @@ const Home = () => {
 
           // Correctly access UserID and UserType
           const { UserID, UserType } = decodedToken;
-          console.log(UserID);
+
           setUserType(UserType);
 
           // Fetch username based on UserID
@@ -54,8 +54,6 @@ const Home = () => {
 
     fetchUsernameAndUserType();
   }, []);
-
-
 
   return (
     <>
