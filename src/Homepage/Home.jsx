@@ -72,6 +72,9 @@ const Home = () => {
             <Link to="/volunteerform" className="home-card">
               <h3>Volunteer Form</h3>
             </Link>
+            <Link to="/eventmanagement" className="home-card">
+              <h3>Manage Events</h3>
+            </Link>
           </>
         )}
         {userType !== 'Administrator' && (

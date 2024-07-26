@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './Event_Form.css';
-import './Edit_Event.css'
+import './Edit_Event_Form.css'
 import { useNavigate, useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import NavBar from '../components/navbar';
+import NavBar from '../componenets/navbar.jsx';
 import MultiSelect from 'multiselect-react-dropdown';
 
 const EditEvent = () => {
@@ -21,7 +21,7 @@ const EditEvent = () => {
   const navigate = useNavigate();
 
 
-console.log(eventDate);
+
   useEffect(() => {
     fetchEvent();
   }, [eventId]); // Fetch the event whenever eventId changes
