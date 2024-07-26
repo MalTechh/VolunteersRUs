@@ -2,11 +2,15 @@ Hello TA these are easy instructions to use the APP.
 
 1. Clone the repo
 
-2. Download MySQL then make then run this command:
+2. Download MySQL then then run this command once you are logged in:
 CREATE DATABASE vrus;
 
-3. In the Database run the MySQL code in between the MySQL tables dashes 
+3. In the server folder go to the .env file provided and change what is neccessary and include your password for MySQL
 
+4. In the root directory run npm i then npm start
+
+The tables should be created by the application start. The tables are shown below.
+   
 MySQL tables
 ------------------------------------------------------------------------------ 
 CREATE TABLE UserCredentials (
@@ -76,6 +80,4 @@ CREATE TABLE `Notifications` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 ------------------------------------------------------------------------------ 
-4. In the server folder go to the .env file and change what is neccessary and include your password for MySQL
 
-5. In the root directory run npm i then run npm start
