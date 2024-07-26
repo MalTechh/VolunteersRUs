@@ -16,7 +16,6 @@ CREATE TABLE UserCredentials (
   UNIQUE KEY Email (Email),
   UNIQUE KEY Username (Username)
 ) ENGINE=InnoDB AUTO_INCREMENT=1078 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-what is this ENGINE=InnoDB AUTO_INCREMENT=1078 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `EventDetails` (
   `EventID` int NOT NULL AUTO_INCREMENT,
