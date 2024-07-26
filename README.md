@@ -76,3 +76,6 @@ CREATE TABLE `Notifications` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 ------------------------------------------------------------------------------ 
+4. In the server folder go to the .env file and change what is neccessary and include your password for MySQL
+
+5. In the root directory run npm i then run npm start
