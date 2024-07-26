@@ -1,83 +1,107 @@
+import express from 'express';
 import request from 'supertest';
-import app from '../../server/app.js';
-import * as eventController from '../../server/controllers/eventController.js';
-import jwt from 'jsonwebtoken';
+import eventRoutes from '../../server/routes/eventRoutes';
+import { createEvent, getEvents, getEvent, updateEvent, deleteEvent, registerForEvent } from '../../server/controllers/eventController';
+import authMiddleware from '../../server/middlewares/authMiddleware';
 
-jest.mock('../../server/controllers/eventController.js'); // Mock the eventController module
+jest.mock('../../server/controllers/eventController');
+jest.mock('../../server/middlewares/authMiddleware');
+
+const app = express();
+app.use(express.json());
+app.use('/api', eventRoutes);
 
 describe('Event Routes', () => {
-  let token;
-
-  beforeAll(() => {
-    // Mock token generation
-    token = jwt.sign({ UserID: 1, UserType: 'admin' }, 'your_jwt_secret');
+  beforeEach(() => {
+    jest.clearAllMocks();
+    authMiddleware.mockImplementation((req, res, next) => next());
   });
 
-  test('should create a new event', async () => {
-    // Mock the createEvent function
-    eventController.createEvent.mockImplementation((req, res) => {
-      res.status(201).json({
-        eventName: 'Community Clean Up',
-        eventDescription: 'Join us to clean up the park.',
-        location: 'Central Park',
-        requiredSkills: ['Cleaning'],
-        urgency: 'High',
-        eventDate: '2024-07-01',
-      });
-    });
+  describe('POST /api/events', () => {
+    it('should call createEvent controller', async () => {
+      createEvent.mockImplementation((req, res) => res.status(201).json({ message: 'Event created' }));
 
-    const response = await request(app)
-      .post('/api/events')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        eventName: 'Community Clean Up',
-        eventDescription: 'Join us to clean up the park.',
-        location: 'Central Park',
-        requiredSkills: ['Cleaning'],
-        urgency: 'High',
-        eventDate: '2024-07-01',
-      });
-
-    expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty('eventName', 'Community Clean Up');
-  });
-
-  test('should get all events', async () => {
-    // Mock the getEvents function
-    eventController.getEvents.mockImplementation((req, res) => {
-      res.status(200).json([
-        {
-          eventName: 'Community Clean Up',
-          eventDescription: 'Join us to clean up the park.',
-          location: 'Central Park',
-          requiredSkills: ['Cleaning'],
+      const res = await request(app)
+        .post('/api/events')
+        .send({
+          EventName: 'New Event',
+          eventDescription: 'Event Description',
+          location: 'Location',
+          requiredSkills: ['Skill1', 'Skill2'],
           urgency: 'High',
-          eventDate: '2024-07-01',
-        },
-      ]);
+          eventDate: '2024-07-20',
+        });
+
+      expect(res.status).toBe(201);
+      expect(res.body.message).toBe('Event created');
+      expect(createEvent).toHaveBeenCalledTimes(1);
     });
-
-    const response = await request(app)
-      .get('/api/events')
-      .set('Authorization', `Bearer ${token}`);
-
-    expect(response.status).toBe(200);
-    expect(response.body).toBeInstanceOf(Array);
-    expect(response.body[0]).toHaveProperty('eventName', 'Community Clean Up');
   });
 
-  test('should register for an event', async () => {
-    // Mock the registerForEvent function
-    eventController.registerForEvent.mockImplementation((req, res) => {
-      res.status(201).json({ message: 'Registered for event successfully' });
+  describe('POST /api/events/register', () => {
+    it('should call registerForEvent controller', async () => {
+      registerForEvent.mockImplementation((req, res) => res.status(200).json({ message: 'Registered for event' }));
+
+      const res = await request(app)
+        .post('/api/events/register')
+        .send({ eventId: 1 });
+
+      expect(res.status).toBe(200);
+      expect(res.body.message).toBe('Registered for event');
+      expect(registerForEvent).toHaveBeenCalledTimes(1);
     });
+  });
 
-    const response = await request(app)
-      .post('/api/events/register')
-      .set('Authorization', `Bearer ${token}`)
-      .send({ eventId: 1 });
+  describe('GET /api/events', () => {
+    it('should call getEvents controller', async () => {
+      getEvents.mockImplementation((req, res) => res.status(200).json([{ EventName: 'Event 1' }]));
 
-    expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty('message', 'Registered for event successfully');
+      const res = await request(app)
+        .get('/api/events');
+
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual([{ EventName: 'Event 1' }]);
+      expect(getEvents).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('GET /api/events/:id', () => {
+    it('should call getEvent controller', async () => {
+      getEvent.mockImplementation((req, res) => res.status(200).json({ EventName: 'Event 1' }));
+
+      const res = await request(app)
+        .get('/api/events/1');
+
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual({ EventName: 'Event 1' });
+      expect(getEvent).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('PUT /api/events/:id', () => {
+    it('should call updateEvent controller', async () => {
+      updateEvent.mockImplementation((req, res) => res.status(200).json({ message: 'Event updated' }));
+
+      const res = await request(app)
+        .put('/api/events/1')
+        .send({ EventName: 'Updated Event' });
+
+      expect(res.status).toBe(200);
+      expect(res.body.message).toBe('Event updated');
+      expect(updateEvent).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('DELETE /api/events/:id', () => {
+    it('should call deleteEvent controller', async () => {
+      deleteEvent.mockImplementation((req, res) => res.status(200).json({ message: 'Event deleted' }));
+
+      const res = await request(app)
+        .delete('/api/events/1');
+
+      expect(res.status).toBe(200);
+      expect(res.body.message).toBe('Event deleted');
+      expect(deleteEvent).toHaveBeenCalledTimes(1);
+    });
   });
 });

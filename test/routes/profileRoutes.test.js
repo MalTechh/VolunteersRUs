@@ -1,70 +1,138 @@
+import express from 'express';
 import request from 'supertest';
-import app from '../../server/app.js';
-import * as profileController from '../../server/controllers/profileController.js';
-import jwt from 'jsonwebtoken';
+import profileRoutes from '../../server/routes/profileRoutes';
+import { getProfile, createProfile, updateProfile } from '../../server/controllers/profileController';
+import authMiddleware from '../../server/middlewares/authMiddleware';
 
-jest.mock('../../server/controllers/profileController.js'); // Mock the profileController module
+jest.mock('../../server/controllers/profileController');
+jest.mock('../../server/middlewares/authMiddleware');
 
-describe('User Profile Routes', () => {
-  let token;
+const app = express();
+app.use(express.json());
+app.use('/api', profileRoutes);
 
-  beforeAll(() => {
-    // Mock token generation
-    token = jwt.sign({ UserID: 1, UserType: 'user' }, 'your_jwt_secret');
+describe('Profile Routes', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    authMiddleware.mockImplementation((req, res, next) => next());
   });
 
-  test('should update a user profile', async () => {
-    // Mock the updateProfile function
-    profileController.updateProfile.mockImplementation((req, res) => {
-      res.status(200).json({
-        UserID: 1,
-        FullName: 'Jane Doe',
-        Address1: '456 Elm St',
-        City: 'Othertown',
-        State: 'TX',
-        ZipCode: '67890',
-        Skills: ['Gardening'],
-        Availability: ['2024-07-01', '2024-07-05'],
-      });
+  describe('GET /api/profile', () => {
+    it('should call getProfile controller', async () => {
+      getProfile.mockImplementation((req, res) => res.status(200).json({ FullName: 'Test User' }));
+
+      const res = await request(app)
+        .get('/api/profile');
+
+      expect(res.status).toBe(200);
+      expect(res.body.FullName).toBe('Test User');
+      expect(getProfile).toHaveBeenCalledTimes(1);
     });
 
-    const response = await request(app)
-      .put('/api/profile')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        fullName: 'Jane Doe',
-        address1: '456 Elm St',
-        city: 'Othertown',
-        state: 'TX',
-        zipCode: '67890',
-        skills: ['Gardening'],
-        availability: ['2024-07-01', '2024-07-05'],
-      });
+    it('should return 401 if authMiddleware fails', async () => {
+      authMiddleware.mockImplementation((req, res) => res.status(401).json({ error: 'Unauthorized access.' }));
 
-    expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('FullName', 'Jane Doe');
+      const res = await request(app)
+        .get('/api/profile');
+
+      expect(res.status).toBe(401);
+      expect(res.body.error).toBe('Unauthorized access.');
+      expect(authMiddleware).toHaveBeenCalledTimes(1);
+      expect(getProfile).not.toHaveBeenCalled();
+    });
   });
 
-  test('should get a user profile', async () => {
-    // Mock the getProfile function
-    profileController.getProfile.mockImplementation((req, res) => {
-      res.status(200).json({
-        UserID: 1,
-        FullName: 'John Doe',
-        Address1: '123 Main St',
-        City: 'Anytown',
-        State: 'CA',
-        ZipCode: '12345',
-        Skills: ['Cooking', 'Teaching'],
-        Availability: ['2024-06-15', '2024-06-20'],
-      });
+  describe('POST /api/profile', () => {
+    it('should call createProfile controller', async () => {
+      createProfile.mockImplementation((req, res) => res.status(201).json({ message: 'Profile created' }));
+
+      const res = await request(app)
+        .post('/api/profile')
+        .send({
+          fullName: 'John Doe',
+          address1: '123 Main St',
+          address2: '',
+          city: 'Sample City',
+          state: 'CA',
+          zipCode: '12345',
+          skills: ['Skill1', 'Skill2'],
+          preferences: 'None',
+          availability: ['2024-07-20']
+        });
+
+      expect(res.status).toBe(201);
+      expect(res.body.message).toBe('Profile created');
+      expect(createProfile).toHaveBeenCalledTimes(1);
     });
 
-    const response = await request(app)
-      .get('/api/profile')
-      .set('Authorization', `Bearer ${token}`);
+    it('should return 401 if authMiddleware fails', async () => {
+      authMiddleware.mockImplementation((req, res) => res.status(401).json({ error: 'Unauthorized access.' }));
 
-    expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('FullName', 'John Doe');
+      const res = await request(app)
+        .post('/api/profile')
+        .send({
+          fullName: 'John Doe',
+          address1: '123 Main St',
+          address2: '',
+          city: 'Sample City',
+          state: 'CA',
+          zipCode: '12345',
+          skills: ['Skill1', 'Skill2'],
+          preferences: 'None',
+          availability: ['2024-07-20']
+        });
+
+      expect(res.status).toBe(401);
+      expect(res.body.error).toBe('Unauthorized access.');
+      expect(authMiddleware).toHaveBeenCalledTimes(1);
+      expect(createProfile).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('PUT /api/profile', () => {
+    it('should call updateProfile controller', async () => {
+      updateProfile.mockImplementation((req, res) => res.status(200).json({ message: 'Profile updated' }));
+
+      const res = await request(app)
+        .put('/api/profile')
+        .send({
+          fullName: 'John Doe',
+          address1: '456 Main St',
+          address2: 'Apt 1',
+          city: 'New City',
+          state: 'NY',
+          zipCode: '54321',
+          skills: ['Skill3', 'Skill4'],
+          preferences: 'Some preferences',
+          availability: ['2024-08-20']
+        });
+
+      expect(res.status).toBe(200);
+      expect(res.body.message).toBe('Profile updated');
+      expect(updateProfile).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return 401 if authMiddleware fails', async () => {
+      authMiddleware.mockImplementation((req, res) => res.status(401).json({ error: 'Unauthorized access.' }));
+
+      const res = await request(app)
+        .put('/api/profile')
+        .send({
+          fullName: 'John Doe',
+          address1: '456 Main St',
+          address2: 'Apt 1',
+          city: 'New City',
+          state: 'NY',
+          zipCode: '54321',
+          skills: ['Skill3', 'Skill4'],
+          preferences: 'Some preferences',
+          availability: ['2024-08-20']
+        });
+
+      expect(res.status).toBe(401);
+      expect(res.body.error).toBe('Unauthorized access.');
+      expect(authMiddleware).toHaveBeenCalledTimes(1);
+      expect(updateProfile).not.toHaveBeenCalled();
+    });
   });
 });
