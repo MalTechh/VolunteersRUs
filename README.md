@@ -1,4 +1,4 @@
-Hello TA these are easy instructions to use the APP.
+Hello TA this is the instructions to use the APP.
 
 1. Clone the repo
 
