@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">95.34% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>39/39</span>
+                <span class='fraction'>41/43</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">95.34% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>39/39</span>
+                <span class='fraction'>41/43</span>
             </div>
         
             
@@ -163,7 +163,10 @@
 <a name='L98'></a><a href='#L98'>98</a>
 <a name='L99'></a><a href='#L99'>99</a>
 <a name='L100'></a><a href='#L100'>100</a>
-<a name='L101'></a><a href='#L101'>101</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -177,11 +180,11 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -203,8 +206,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -226,6 +227,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -239,13 +241,17 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -277,11 +283,11 @@ export const getProfile = async (req, res) =&gt; {
       console.log('Profile not found for userId:', userId);
       return res.status(404).json({ error: 'Profile not found.' });
     }
-&nbsp;
+    console.log("before JSON parse", profile.Availability);
     // Parse Skills and Availability from JSON strings to arrays
     const skills = profile.Skills ? JSON.parse(profile.Skills) : <span class="branch-1 cbranch-no" title="branch not covered" >[];</span>
     const availability = profile.Availability ? JSON.parse(profile.Availability) : <span class="branch-1 cbranch-no" title="branch not covered" >[];</span>
-&nbsp;
+    console.log("after JSON parse", availability);
     // Return profile with parsed arrays
     res.status(200).json({ ...profile.toJSON(), Skills: skills, Availability: availability });
   } catch (error) {
@@ -306,8 +312,6 @@ export const createProfile = async (req, res) =&gt; {
     availability,
   } = req.body;
 &nbsp;
-  const newAvailability = JSON.stringify(availability) 
-&nbsp;
   try {
     const profile = await UserProfile.create({
       UserID: userId, // Make sure this matches the column name in your model
@@ -319,7 +323,7 @@ export const createProfile = async (req, res) =&gt; {
       ZipCode: zipCode,
       Skills: JSON.stringify(skills), // Convert array to JSON string
       Preferences: preferences,
-      Availability: newAvailability,
+      Availability: JSON.stringify(availability), // Convert array to JSON string
     });
 &nbsp;
     res.status(201).json(profile);
@@ -328,6 +332,7 @@ export const createProfile = async (req, res) =&gt; {
     res.status(400).json({ error: 'Error creating profile.' });
   }
 };
+&nbsp;
 &nbsp;
 export const updateProfile = async (req, res) =&gt; {
   const userId = req.user.id;
@@ -339,14 +344,18 @@ export const updateProfile = async (req, res) =&gt; {
     if (!profile) {
       return res.status(404).json({ error: 'Profile not found' });
     }
-&nbsp;
+    console.log("update before stringify: ", profileData.Availability);
     <span class="missing-if-branch" title="else path not taken" >E</span>if (profileData.skills) {
-      profileData.Skills = JSON.stringify(profileData.skills);
+      profileData.Skills = JSON.stringify(profileData.Skills);
     }
 &nbsp;
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (profileData.availability) {
-      profileData.Availability = JSON.stringify(profileData.availability);
+    console.log('Availability before update:', profileData.Availability); // Log the original array
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (profileData.Availability) { 
+<span class="cstat-no" title="statement not covered" >      profileData.Availability = JSON.stringify(profileData.Availability);</span>
+<span class="cstat-no" title="statement not covered" >      console.log('Availability after stringification:', profileData.Availability); </span>// Log after stringify
     }
+&nbsp;
 &nbsp;
     await profile.update(profileData);
 &nbsp;
@@ -370,7 +379,7 @@ export const updateProfile = async (req, res) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-07-26T23:31:09.363Z
+                at 2024-07-26T23:39:11.446Z
             </div>
         <script src="../prettify.js"></script>
         <script>

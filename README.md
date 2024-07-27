@@ -9,6 +9,8 @@ CREATE DATABASE vrus;
 
 4. In the root directory run npm i then npm start
 
+5. To generate a code coverage report run `npx jest --coverage`
+
 The tables should be created by the application start. The tables are shown below.
    
 MySQL tables
