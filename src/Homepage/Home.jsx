@@ -62,6 +62,9 @@ const Home = () => {
             <Link to="/eventmanagement" className="home-card">
               <h3>Manage Events</h3>
             </Link>
+            <Link to="/reports" className="home-card">
+              <h3>Reports</h3>
+            </Link>
           </>
         )}
         {userType !== 'Administrator' && (

@@ -13,6 +13,7 @@ import Notification from './Notification';
 import Volunteer_History from './Volunteer_History/Volunteer_History.jsx';
 import VolunteerForm from './Volunteer_Form/Volunteer_Form';
 import EditProfile from './User_Profile/EditProfile.jsx';
+import Reports from './Reports.jsx'
 import './App.css';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/volunteerhistory" element={<Volunteer_History />} />
           <Route path="/volunteerform" element={<VolunteerForm />} />
+          <Route path="/reports" element ={<Reports />} />
         </Routes>
       </div>
     </Router>
