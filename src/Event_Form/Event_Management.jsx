@@ -12,6 +12,12 @@ const EventManagement = () => {
     fetchEvents();
   }, []);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD
+  };
+  
+
   const fetchEvents = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/events', {
@@ -79,9 +85,9 @@ const EventManagement = () => {
                 <p>Location: {event.Location}</p>
                 <p>Required Skills: {event.RequiredSkills}</p>
                 <p>Urgency: {event.Urgency}</p>
-                <p>Event Date: {event.EventDate}</p>
-                <button onClick={() => handleEdit(event)}>Edit</button>
-                <button onClick={() => handleDelete(event.EventID)}>Delete</button>
+                <p>Event Date: {formatDate(event.EventDate)}</p>
+                <button className='edit-button' onClick={() => handleEdit(event)}>Edit</button>
+                <button className='delete-button' onClick={() => handleDelete(event.EventID)}>Delete</button>
               </div>
             ))}
           </div>

@@ -67,4 +67,33 @@
   
   
 
-  
+  /* Edit_Event_Form.css */
+
+/* Update Event button styles */
+.edit-event-submit {
+  background-color: #28a745; /* Green background */
+  border: none; /* Remove default border */
+  color: white; /* White text */
+  padding: 10px 20px; /* Add padding */
+  text-align: center; /* Center text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Display inline-block */
+  font-size: 16px; /* Increase font size */
+  margin: 10px 0; /* Add margin */
+  cursor: pointer; /* Change cursor on hover */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s, transform 0.2s; /* Smooth transition effects */
+}
+
+.edit-event-submit:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.edit-event-submit:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.5); /* Add focus shadow */
+}
+
+.edit-event-submit:active {
+  transform: scale(0.98); /* Slightly shrink button on click */
+}

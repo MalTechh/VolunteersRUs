@@ -2,20 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../componenets/navbar.jsx';
 import axios from 'axios';
-import { notify } from '../Notification.jsx';
 import './Home.css';  // Import the CSS file for styling
-
-const AnyComponent = () => {
-  const handleClick = () => {
-    notify('This is a notification message!');
-  };
-
-  return (
-    <div>
-      <button onClick={handleClick}>Show Notification</button>
-    </div>
-  );
-};
 
 
 
@@ -75,9 +62,6 @@ const Home = () => {
             <Link to="/eventmanagement" className="home-card">
               <h3>Manage Events</h3>
             </Link>
-            <Link to="/editprofile" className="home-card">
-              <h3>Edit User Profile</h3>
-            </Link>
           </>
         )}
         {userType !== 'Administrator' && (
@@ -92,7 +76,6 @@ const Home = () => {
         )}
        
       </div>
-      <AnyComponent />
     </>
   );
 };

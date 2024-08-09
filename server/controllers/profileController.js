@@ -1,6 +1,7 @@
 // controllers/profileController.js
 
 import UserProfile from '../models/UserProfile.js';
+import { subDays } from 'date-fns';
 
 export const getProfile = async (req, res) => {
   const userId = req.user.id;

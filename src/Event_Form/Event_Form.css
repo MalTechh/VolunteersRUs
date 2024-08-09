@@ -133,3 +133,41 @@ text-align: center;
     margin-top: 10px; /* Optional: Add margin */
   }
   
+  .edit-button {
+    background-color: #007bff; /* Blue background */
+    border: none; /* Remove default border */
+    color: white; /* White text */
+    padding: 10px 20px; /* Add padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Display inline-block */
+    font-size: 16px; /* Increase font size */
+    margin: 5px 2px; /* Add margin */
+    cursor: pointer; /* Change cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth background color transition */
+  }
+  
+  .edit-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Delete button styles */
+  .delete-button {
+    background-color: #dc3545; /* Red background */
+    border: none; /* Remove default border */
+    color: white; /* White text */
+    padding: 10px 20px; /* Add padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Display inline-block */
+    font-size: 16px; /* Increase font size */
+    margin: 5px 2px; /* Add margin */
+    cursor: pointer; /* Change cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth background color transition */
+  }
+  
+  .delete-button:hover {
+    background-color: #c82333; /* Darker red on hover */
+  }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../componenets/navbar';
+import { toast, ToastContainer } from 'react-toastify';
 import './Volunteer_Form.css';
 
 const Volunteer_Form = () => {
@@ -55,6 +56,7 @@ const Volunteer_Form = () => {
 
           if (response.ok) {
             const data = await response.json();
+            
             setMatchedEvents(data.matchingEvents || []);
           } else {
             console.error('Failed to fetch matched events');
@@ -96,9 +98,10 @@ const Volunteer_Form = () => {
 
       if (response.ok) {
         const result = await response.json();
-        alert('Volunteer successfully matched to event!');
+
         console.log('Match result:', result);
-        // Optionally, reset the form or do additional actions here
+       toast.success('Successfully volunteer match')
+       toast.success('Email sent!')
       } else {
         const error = await response.json();
         console.error('Error submitting volunteer match:', error);
@@ -170,6 +173,7 @@ const Volunteer_Form = () => {
         </form>
       </div>
     </div>
+    <ToastContainer /> 
     </>
   );
 };

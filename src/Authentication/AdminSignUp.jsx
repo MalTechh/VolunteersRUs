@@ -34,7 +34,7 @@ const SignUp = () => {
 
       sessionStorage.setItem('authToken', data.token);
 
-      navigate('/userprofile');
+      navigate('/home');
       // Handle success case (redirect, show message, etc.)
     } else {
       console.error('Error signing up:', response.statusText);

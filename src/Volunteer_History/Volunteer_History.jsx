@@ -9,6 +9,11 @@ const Volunteer_History = () => {
     fetchVolunteerHistory();
   }, []);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD
+  };
+
   const fetchVolunteerHistory = async () => {
     const url = 'http://localhost:3000/api/history'; // Replace with your actual backend endpoint
     const token = sessionStorage.getItem('authToken');
@@ -70,7 +75,7 @@ const Volunteer_History = () => {
                 <td>{event.Location}</td>
                 <td>{event.RequiredSkills}</td> 
                 <td>{event.Urgency}</td>
-                <td>{event.EventDate}</td>
+                <td>{formatDate(event.EventDate)}</td>
                 <td>{event.Status}</td>
               </tr>
             ))

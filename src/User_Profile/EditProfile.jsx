@@ -255,7 +255,8 @@ const EditProfile = () => {
     <>
     <Navbar />
     <div className="UserProfile">
-        <div className="user-profile-buttons">
+      <div className='user-profile-container'>
+      <div className="user-profile-buttons">
         {!isEditMode ? (
           <button className="btn btn-primary" onClick={handleEditClick}>
             Edit
@@ -271,7 +272,6 @@ const EditProfile = () => {
           </>
         )}
       </div>
-      <div className='user-profile-container'>
         <div className="user-profile-header">
           <div className="user-profile-text">Edit Your Profile</div>
           <div className="user-profile-underline"></div>

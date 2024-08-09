@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import NavBar from '../componenets/navbar.jsx';
 import MultiSelect from 'multiselect-react-dropdown';
+import { toast, ToastContainer } from 'react-toastify';
 
 const EditEvent = () => {
   const { eventId } = useParams(); // Get the eventId from the URL
@@ -67,7 +68,7 @@ const EditEvent = () => {
 
 
   const handleSubmit = async (e) => {
-   
+    e.preventDefault();
     const updatedEvent = {
       EventName: eventName,
       Description: eventDescription,
@@ -76,9 +77,6 @@ const EditEvent = () => {
       Urgency: urgency,
       EventDate: eventDate.toISOString().split('T')[0],
     };
-    console.log('Updated Event:', updatedEvent);
-
-
     try {
       const response = await fetch(`http://localhost:3000/api/events/${eventId}`, { // Use the eventId here
         method: 'PUT',
@@ -90,6 +88,8 @@ const EditEvent = () => {
       });
   
       if (response.ok) {
+ 
+        toast.success('Successfully updated the event');
         setNotification('Event updated successfully!');
 
       } else {
@@ -153,12 +153,13 @@ const EditEvent = () => {
             <DatePicker selected={eventDate} onChange={(date) => setEventDate(date)} />
             {errors.eventDate && <p className="error">{errors.eventDate}</p>}
           </div>
-          <button type="submit">Update Event</button>
+          <button className="edit-event-submit" type="submit">Update Event</button>
         </form>
       ) : (
         <p>Loading event...</p>
       )}
       {notification && <p className="notification">{notification}</p>}
+      <ToastContainer /> 
     </div>
   );
 };

@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { addDays } from 'date-fns'; // Import addDays function
 import Navbar from '../componenets/navbar';
 import MultiSelect from 'multiselect-react-dropdown';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Event_Form = () => {
   const [eventName, setEventName] = useState('');
@@ -61,7 +62,7 @@ const Event_Form = () => {
         const result = await response.json();
         console.log('Event created successfully:', result);
         resetForm(); // Reset the form only if event creation was successful
-        // Optionally, navigate to a different page or show a success message
+        toast.success('Event has been created successfully!');
       } else {
         console.error('Error creating event:', response.statusText);
         // Optionally, handle the error (e.g., show error message to user)
@@ -218,6 +219,7 @@ const Event_Form = () => {
         </div>
       </div>
     </div>
+    <ToastContainer /> 
     </>
   );
 };
